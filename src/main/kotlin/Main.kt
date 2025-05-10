@@ -1,28 +1,15 @@
 import androidx.compose.desktop.ui.tooling.preview.Preview
-import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
-import androidx.compose.material.Button
+import androidx.compose.foundation.layout.*
 import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.awt.SwingPanel
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.application
-import androidx.compose.ui.window.rememberWindowState
 import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea
 import org.fife.ui.rsyntaxtextarea.SyntaxConstants
 import org.fife.ui.rtextarea.RTextScrollPane
@@ -39,7 +26,7 @@ fun main() = application {
 @Composable
 @Preview
 fun App() {
-    val state = rememberEditorState()
+    val state = mutableStateOf("public static void main(String[] args) {\n\n}")
 
     MaterialTheme {
          Row(
@@ -50,21 +37,9 @@ fun App() {
          ) {
 
          }
-        CodeEditor(state.editorText, modifier = Modifier.fillMaxSize().padding(10.dp))
+        CodeEditor(state, modifier = Modifier.fillMaxSize().padding(10.dp))
     }
 }
-
-class EditorState {
-    var editorText = mutableStateOf("@platnuml\n\n@end")
-    val showSettings = mutableStateOf(true)
-
-    val run = {
-        println("Run: $editorText")
-    }
-}
-
-@Composable
-fun rememberEditorState() = remember { EditorState() }
 
 @Composable
 fun CodeEditor(code: MutableState<String>, modifier: Modifier = Modifier) {
