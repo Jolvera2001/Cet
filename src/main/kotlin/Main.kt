@@ -1,3 +1,4 @@
+import PluginSystem.PluginSystem
 import androidx.compose.desktop.ui.tooling.preview.Preview
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.MaterialTheme
@@ -28,14 +29,18 @@ fun main() = application {
 fun App() {
     val state = mutableStateOf("public static void main(String[] args) {\n\n}")
 
+    // just to instantiate
+    var ps = PluginSystem()
+
     MaterialTheme {
+        // row above editor
          Row(
              modifier = Modifier
                  .fillMaxWidth()
                  .height(50.dp)
                  .padding(10.dp),
          ) {
-
+            // some ui here in this row
          }
         CodeEditor(state, modifier = Modifier.fillMaxSize().padding(10.dp))
     }

@@ -1,0 +1,4 @@
+package PluginSystem
+
+interface IPlugin {
+}
