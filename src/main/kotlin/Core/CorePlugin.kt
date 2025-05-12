@@ -1,9 +1,10 @@
 package Core
 
+import PluginSystem.EventHandler
 import PluginSystem.IPlugin
 
 class CorePlugin: IPlugin {
-    override fun onInitialize() {
+    override fun onInitialize(eventHandler: EventHandler) {
         TODO("Not yet implemented")
     }
 

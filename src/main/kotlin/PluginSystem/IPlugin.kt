@@ -1,6 +1,6 @@
 package PluginSystem
 
 interface IPlugin {
-    fun onInitialize()
+    fun onInitialize(eventHandler: EventHandler)
     fun onDisable()
 }
