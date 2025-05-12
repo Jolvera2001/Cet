@@ -7,6 +7,7 @@ import Core.CorePlugin
  * Planned to have an event system and plugin tracking
  *
  */
+// TODO: Once we have a basic implementation, work on coroutine usage
 class PluginSystem {
     private val _eventSystem = EventHandler()
     private val _plugins = mutableMapOf<String, IPlugin>()
