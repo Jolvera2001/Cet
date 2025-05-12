@@ -21,8 +21,7 @@ class PluginSystem {
     }
 
     private fun registerPlugins() {
-        // TODO: Not sustainable for all plugins, need to find a way to
-        // dynamically search for all available plugins
+        // TODO: Not sustainable for all plugins, need to find a way to dynamically search for all available plugins
         _plugins.put("core", CorePlugin())
     }
 
