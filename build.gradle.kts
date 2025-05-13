@@ -1,5 +1,7 @@
 import org.jetbrains.compose.desktop.application.dsl.TargetFormat
 
+val kotestVersion = "6.0.0.M4"
+
 plugins {
     kotlin("jvm")
     id("org.jetbrains.compose")
@@ -29,8 +31,16 @@ dependencies {
     // editor
     implementation("com.fifesoft:rsyntaxtextarea:3.1.3")
 
-    // testing
+    // testing/mocking
+    testImplementation("io.kotest:kotest-runner-junit5:$kotestVersion")
+    testImplementation("io.kotest:kotest-assertions-core:$kotestVersion")
+    testImplementation("io.mockk:mockk:1.14.2")
+
     // etc.
+}
+
+tasks.withType<Test>().configureEach {
+    useJUnitPlatform()
 }
 
 compose.desktop {
