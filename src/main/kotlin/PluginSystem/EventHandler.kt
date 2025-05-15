@@ -14,7 +14,18 @@ class EventHandler {
     val events = _events.asSharedFlow()
 
     /**
-     * Provides access to event stream for plugins to subscribe to
+     * Provides access to event stream for plugins to subscribe to.
+     * Here is a starting example:
+     * ```
+     * override fun onInitialize(eventHandler: EventHandler) {
+     *         state = PluginState.ACTIVE
+     *         eventHandler.Subscribe().onEach { event ->
+     *             when (event) {
+     *                 // TODO: define events
+     *             }
+     *         }.launchIn(scope)
+     *     }
+     * ```
      *
      * @return A SharedFlow that emits all published events on the event system
      */
@@ -22,7 +33,6 @@ class EventHandler {
 
     /**
      * Allows plugins to send in events to the event system for other plugins to react to.
-     * **Note**: the type is a work in progress, will not stay a String
      *
      * @param event The event that the plugin is sending to the event system
      */
