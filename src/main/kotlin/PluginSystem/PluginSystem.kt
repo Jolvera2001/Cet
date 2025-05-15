@@ -1,6 +1,10 @@
 package PluginSystem
 
 import Core.CorePlugin
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.SupervisorJob
+import kotlinx.coroutines.launch
 
 /**
  * Core system that handles plugins for the Cet app.
@@ -11,23 +15,37 @@ import Core.CorePlugin
 class PluginSystem {
     private val _eventSystem = EventHandler()
     private val _plugins = mutableMapOf<String, IPlugin>()
+    private val supervisor = SupervisorJob()
+
+    private val systemScope = CoroutineScope(
+        supervisor + Dispatchers.Default
+    )
 
     fun Startup() {
         registerPlugins()
-        startPlugins()
+
+        systemScope.launch {
+            startPlugins()
+        }
     }
 
     fun stop() {
+        supervisor.cancel()
         shutDownPlugins()
     }
 
     private fun registerPlugins() {
         // TODO: Not sustainable for all plugins, need to find a way to dynamically search for all available plugins
-        _plugins.put("core", CorePlugin())
+        _plugins.put("core", CorePlugin(systemScope.coroutineContext))
     }
 
-    private fun startPlugins() {
-        _plugins.forEach { (_, plugin) -> plugin.onInitialize(_eventSystem) }
+    private suspend fun startPlugins() {
+        _plugins.forEach { (id, plugin) ->
+            systemScope.launch {
+                plugin.onInitialize(_eventSystem)
+
+            }
+        }
     }
 
     private fun shutDownPlugins() {
