@@ -19,12 +19,15 @@ class CorePlugin(context: CoroutineContext) : IPlugin {
             when (event) {
                 // TODO: define events
             }
-        }
-            .launchIn(scope)
+        }.launchIn(scope)
     }
 
     override fun onDisable() {
         state = PluginState.STOPPED
         scope.cancel()
     }
+}
+
+sealed class CoreEvents {
+
 }
