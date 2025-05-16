@@ -1,4 +1,4 @@
-import PluginSystem.PluginSystem
+import pluginSystem.PluginSystem
 import io.kotest.core.spec.style.FunSpec
 import io.kotest.matchers.shouldNotBe
 

@@ -1,4 +1,4 @@
-package PluginSystem
+package pluginSystem
 
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.SharedFlow
@@ -59,7 +59,7 @@ abstract class CetEvent {
         ) : BaseEvents()
     }
 
-    sealed class PluginEvent : CetEvent() {
+    abstract class PluginEvent : CetEvent() {
         // left empty to let plugins implement
     }
 }

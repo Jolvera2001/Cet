@@ -1,6 +1,4 @@
-package PluginSystem
-
-import kotlin.coroutines.CoroutineContext
+package pluginSystem
 
 interface IPlugin {
     fun onInitialize(eventHandler: EventHandler)

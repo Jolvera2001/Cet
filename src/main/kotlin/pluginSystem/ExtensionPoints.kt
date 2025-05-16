@@ -1,4 +1,4 @@
-package PluginSystem
+package pluginSystem
 
 sealed class ExtensionPoints(val id: String) {
     object MainToolBar : ExtensionPoints("main_toolbar")
