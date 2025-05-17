@@ -6,11 +6,8 @@ import org.koin.core.context.GlobalContext.startKoin
 import org.koin.core.context.GlobalContext.stopKoin
 import org.koin.test.KoinTest
 import org.koin.test.get
-import org.koin.test.inject
-import org.koin.test.junit5.AutoCloseKoinTest
 import pluginSystem.IPlugin
 import pluginSystem.PluginSystem
-import kotlin.collections.emptyMap
 
 class PluginSystemTests : FunSpec(), KoinTest {
     init {
