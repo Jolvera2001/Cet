@@ -9,15 +9,14 @@ import kotlinx.coroutines.cancel
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
-import kotlin.coroutines.CoroutineContext
 
 class CorePlugin() : IPlugin {
     override val id = "core"
     override val version = "0.1.0"
     private var state = PluginState.STOPPED
-    private lateinit var scope: CoroutineScope;
+    private lateinit var scope: CoroutineScope
 
-    private lateinit var eventHandler: EventHandler;
+    private lateinit var eventHandler: EventHandler
 
     override fun onInitialize(eventHandler: EventHandler, scope: CoroutineScope) {
         state = PluginState.ACTIVE
