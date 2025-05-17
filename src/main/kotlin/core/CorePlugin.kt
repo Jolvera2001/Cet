@@ -5,29 +5,32 @@ import pluginSystem.EventHandler
 import pluginSystem.IPlugin
 import pluginSystem.PluginState
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import kotlin.coroutines.CoroutineContext
 
-class CorePlugin(context: CoroutineContext) : IPlugin {
+class CorePlugin() : IPlugin {
     override val id = "core"
     override val version = "0.1.0"
     private var state = PluginState.STOPPED
-    private val scope = CoroutineScope(context)
+    private lateinit var scope: CoroutineScope;
 
     private lateinit var eventHandler: EventHandler;
 
-    override fun onInitialize(eventHandler: EventHandler) {
+    override fun onInitialize(eventHandler: EventHandler, context: CoroutineContext) {
         state = PluginState.ACTIVE
         this.eventHandler = eventHandler
+        this.scope = CoroutineScope(context)
 
         scope.launch {
             val lifeCycleEvent = CetEvent.BaseEvents.PluginLifecycleEvent(
                 pluginId = id,
                 state = state,
-                name = "uh idk? WHy did I add this?",
+                name = "Core Plugin Initialized",
                 timestamp = System.currentTimeMillis(),
             )
             eventHandler.Publish(lifeCycleEvent)
@@ -43,16 +46,17 @@ class CorePlugin(context: CoroutineContext) : IPlugin {
     override fun onDisable() {
         state = PluginState.STOPPED
 
-        scope.launch {
-            val lifeCycleEvent = CetEvent.BaseEvents.PluginLifecycleEvent(
-                pluginId = id,
-                state = state,
-                name = "uh idk? WHy did I add this?",
-                timestamp = System.currentTimeMillis(),
-            )
-            eventHandler.Publish(lifeCycleEvent)
+        if (::scope.isInitialized) {
+            scope.launch {
+                val lifeCycleEvent = CetEvent.BaseEvents.PluginLifecycleEvent(
+                    pluginId = id,
+                    state = state,
+                    name = "Core Plugin Disabled",
+                    timestamp = System.currentTimeMillis(),
+                )
+                eventHandler.Publish(lifeCycleEvent)
+            }
         }
-
         scope.cancel()
     }
 }

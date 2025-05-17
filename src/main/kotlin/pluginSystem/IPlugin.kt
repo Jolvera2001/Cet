@@ -1,9 +1,11 @@
 package pluginSystem
 
+import kotlin.coroutines.CoroutineContext
+
 interface IPlugin {
     val id: String
     val version: String
-    fun onInitialize(eventHandler: EventHandler)
+    fun onInitialize(eventHandler: EventHandler, context: CoroutineContext)
     fun onDisable()
 }
 

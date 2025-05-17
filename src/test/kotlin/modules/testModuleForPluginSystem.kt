@@ -9,7 +9,7 @@ import pluginSystem.EventHandler
 import pluginSystem.PluginSystem
 
 val testModulePluginSystem = module {
-    // learn how to define this better
+    // TODO: learn how to define this better
     single<EventHandler>{
         mockk<EventHandler>(relaxed = true).apply {
             every { Subscribe() } returns mockk(relaxed = true)

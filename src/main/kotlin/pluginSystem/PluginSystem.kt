@@ -6,6 +6,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.launch
+import java.util.ServiceLoader
 import kotlin.coroutines.CoroutineContext
 
 /**
@@ -37,8 +38,8 @@ class PluginSystem(eventHandler: EventHandler, context: CoroutineContext) {
     }
 
     private fun registerPlugins() {
-        // TODO: Not sustainable for all plugins, need to find a way to dynamically search for all available plugins
-        _plugins.put("core", CorePlugin(systemScope.coroutineContext))
+        val loader = ServiceLoader.load(IPlugin::class.java)
+        loader.forEach { plugin: IPlugin -> _plugins.put(plugin.id, plugin) }
     }
 
     private suspend fun startPlugins() {
