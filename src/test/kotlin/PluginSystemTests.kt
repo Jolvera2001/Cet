@@ -35,6 +35,7 @@ class PluginSystemTests : FunSpec(), KoinTest {
             }
             test("plugin system starts without being null") {
                 val pluginSystem = get<PluginSystem>()
+
                 pluginSystem shouldNotBe null
             }
 
@@ -45,7 +46,9 @@ class PluginSystemTests : FunSpec(), KoinTest {
             // rather than being truly clean
             test("plugin system starts without being empty") {
                 val pluginSystem = get<PluginSystem>()
+
                 pluginSystem.startup()
+
                 val pluginMap = pluginSystem.getPlugins()
                 pluginMap.keys shouldNotBe emptyMap<String, IPlugin>()
             }
@@ -54,6 +57,7 @@ class PluginSystemTests : FunSpec(), KoinTest {
             // if the plugin system shuts down, it just stops every plugin
             test("plugin system stop still tracks plugins") {
                 val pluginSystem = get<PluginSystem>()
+
                 pluginSystem.startup()
                 pluginSystem.stop()
 
