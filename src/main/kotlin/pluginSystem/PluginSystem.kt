@@ -21,7 +21,7 @@ class PluginSystem {
         supervisor + Dispatchers.Default
     )
 
-    fun Startup() {
+    fun startup() {
         registerPlugins()
 
         systemScope.launch {
