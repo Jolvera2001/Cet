@@ -53,8 +53,8 @@ class CorePlugin() : IPlugin {
                 )
                 eventHandler.Publish(lifeCycleEvent)
             }
+            scope.cancel()
         }
-        scope.cancel()
     }
 }
 
