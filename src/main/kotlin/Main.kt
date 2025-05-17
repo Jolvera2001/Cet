@@ -30,7 +30,7 @@ fun App() {
     val state = mutableStateOf("public static void main(String[] args) {\n\n}")
 
     // just to instantiate
-    var ps = PluginSystem()
+    // var ps = PluginSystem()
 
     MaterialTheme {
         // row above editor

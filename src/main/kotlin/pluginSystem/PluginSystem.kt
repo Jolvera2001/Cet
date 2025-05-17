@@ -4,7 +4,9 @@ import core.CorePlugin
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
+import kotlinx.coroutines.cancel
 import kotlinx.coroutines.launch
+import kotlin.coroutines.CoroutineContext
 
 /**
  * Core system that handles plugins for the Cet app.
@@ -12,14 +14,10 @@ import kotlinx.coroutines.launch
  *
  */
 // TODO: Once we have a basic implementation, work on coroutine usage
-class PluginSystem {
-    private val _eventSystem = EventHandler()
+class PluginSystem(eventHandler: EventHandler, context: CoroutineContext) {
+    private val _eventSystem = eventHandler
     private val _plugins = mutableMapOf<String, IPlugin>()
-    private val supervisor = SupervisorJob()
-
-    private val systemScope = CoroutineScope(
-        supervisor + Dispatchers.Default
-    )
+    private val systemScope = CoroutineScope(context)
 
     fun startup() {
         registerPlugins()
@@ -30,7 +28,7 @@ class PluginSystem {
     }
 
     fun stop() {
-        supervisor.cancel()
+        systemScope.cancel()
         shutDownPlugins()
     }
 

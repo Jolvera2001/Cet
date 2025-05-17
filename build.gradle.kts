@@ -1,6 +1,7 @@
 import org.jetbrains.compose.desktop.application.dsl.TargetFormat
 
 val kotestVersion = "6.0.0.M4"
+val koin_version = "4.0.3"
 
 plugins {
     kotlin("jvm")
@@ -27,9 +28,18 @@ dependencies {
     // coroutines
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.10.2")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core-jvm:1.10.2")
+    testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.10.2")
 
     // editor
     implementation("com.fifesoft:rsyntaxtextarea:3.1.3")
+
+    // DI
+    implementation(project.dependencies.platform("io.insert-koin:koin-bom:$koin_version"))
+    implementation("io.insert-koin:koin-core")
+    implementation("io.insert-koin:koin-core-coroutines")
+    implementation("io.insert-koin:koin-compose")
+    testImplementation("io.insert-koin:koin-test")
+    testImplementation("io.insert-koin:koin-test-junit5")
 
     // testing/mocking
     testImplementation("io.kotest:kotest-runner-junit5:$kotestVersion")
