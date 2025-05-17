@@ -45,7 +45,7 @@ class PluginSystem(eventHandler: EventHandler, context: CoroutineContext) {
     private suspend fun startPlugins() {
         _plugins.forEach { (id, plugin) ->
             systemScope.launch {
-                plugin.onInitialize(_eventSystem)
+                plugin.onInitialize(_eventSystem, systemScope)
 
             }
         }

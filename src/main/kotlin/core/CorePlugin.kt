@@ -5,8 +5,6 @@ import pluginSystem.EventHandler
 import pluginSystem.IPlugin
 import pluginSystem.PluginState
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -21,10 +19,10 @@ class CorePlugin() : IPlugin {
 
     private lateinit var eventHandler: EventHandler;
 
-    override fun onInitialize(eventHandler: EventHandler, context: CoroutineContext) {
+    override fun onInitialize(eventHandler: EventHandler, scope: CoroutineScope) {
         state = PluginState.ACTIVE
         this.eventHandler = eventHandler
-        this.scope = CoroutineScope(context)
+        this.scope = scope
 
         scope.launch {
             val lifeCycleEvent = CetEvent.BaseEvents.PluginLifecycleEvent(
