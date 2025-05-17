@@ -34,5 +34,23 @@ class PluginSystemTests : FunSpec({
             val pluginMap = pluginSystem.getPlugins()
             pluginMap.keys shouldNotBe emptyMap<String, IPlugin>()
         }
+
+        // I don't think that the plugins should just be taken out of the map
+        // if the plugin system shuts down, it just stops every plugin
+        test("plugin system stop still tracks plugins") {
+            pluginSystem.startup()
+            pluginSystem.stop()
+
+            val pluginMap = pluginSystem.getPlugins()
+            pluginMap.keys shouldNotBe emptyMap<String, IPlugin>()
+        }
+    }
+
+    context("plugin system coroutine related tests") {
+
+    }
+
+    context("plugin system event system related tests") {
+
     }
 })
