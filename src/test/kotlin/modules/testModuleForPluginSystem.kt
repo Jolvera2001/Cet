@@ -1,5 +1,6 @@
 package modules
 
+import core.CorePlugin
 import io.mockk.every
 import io.mockk.mockk
 import kotlinx.coroutines.SupervisorJob
@@ -15,6 +16,16 @@ val testModulePluginSystem = module {
             every { Subscribe() } returns mockk(relaxed = true)
         }
     }
-    factory { StandardTestDispatcher() + SupervisorJob() }
+    factory<kotlin.coroutines.CoroutineContext> { StandardTestDispatcher() + SupervisorJob() }
     single { PluginSystem(get(), get()) }
+}
+
+val testModulePluginCore = module {
+    single<EventHandler>{
+        mockk<EventHandler>(relaxed = true).apply {
+            every { Subscribe() } returns mockk(relaxed = true)
+        }
+    }
+    factory<kotlin.coroutines.CoroutineContext> { StandardTestDispatcher() + SupervisorJob() }
+    factory { CorePlugin() }
 }

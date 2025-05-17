@@ -13,7 +13,7 @@ import kotlinx.coroutines.launch
 class CorePlugin() : IPlugin {
     override val id = "core"
     override val version = "0.1.0"
-    private var state = PluginState.STOPPED
+    var state = PluginState.STOPPED
     private lateinit var scope: CoroutineScope
 
     private lateinit var eventHandler: EventHandler
@@ -41,19 +41,23 @@ class CorePlugin() : IPlugin {
     }
 
     override fun onDisable() {
-        state = PluginState.STOPPED
+        state = PluginState.DISABLED
+        val lifeCycleEvent = CetEvent.BaseEvents.PluginLifecycleEvent(
+            pluginId = id,
+            state = state,
+            name = "Core Plugin Disabled",
+            timestamp = System.currentTimeMillis(),
+        )
 
         if (::scope.isInitialized) {
-            scope.launch {
-                val lifeCycleEvent = CetEvent.BaseEvents.PluginLifecycleEvent(
-                    pluginId = id,
-                    state = state,
-                    name = "Core Plugin Disabled",
-                    timestamp = System.currentTimeMillis(),
-                )
+            val publishJob = scope.launch {
                 eventHandler.Publish(lifeCycleEvent)
             }
-            scope.cancel()
+
+            scope.launch {
+                publishJob.join()
+                scope.cancel()
+            }
         }
     }
 }
