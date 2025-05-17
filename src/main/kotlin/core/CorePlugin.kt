@@ -12,9 +12,10 @@ import kotlinx.coroutines.launch
 import kotlin.coroutines.CoroutineContext
 
 class CorePlugin(context: CoroutineContext) : IPlugin {
+    override val id = "core"
+    override val version = "0.1.0"
     private var state = PluginState.STOPPED
     private val scope = CoroutineScope(context)
-    private val _id = "core"
 
     private lateinit var eventHandler: EventHandler;
 
@@ -24,7 +25,7 @@ class CorePlugin(context: CoroutineContext) : IPlugin {
 
         scope.launch {
             val lifeCycleEvent = CetEvent.BaseEvents.PluginLifecycleEvent(
-                pluginId = _id,
+                pluginId = id,
                 state = state,
                 name = "uh idk? WHy did I add this?",
                 timestamp = System.currentTimeMillis(),
@@ -44,7 +45,7 @@ class CorePlugin(context: CoroutineContext) : IPlugin {
 
         scope.launch {
             val lifeCycleEvent = CetEvent.BaseEvents.PluginLifecycleEvent(
-                pluginId = _id,
+                pluginId = id,
                 state = state,
                 name = "uh idk? WHy did I add this?",
                 timestamp = System.currentTimeMillis(),

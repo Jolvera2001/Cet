@@ -1,6 +1,8 @@
 package pluginSystem
 
 interface IPlugin {
+    val id: String
+    val version: String
     fun onInitialize(eventHandler: EventHandler)
     fun onDisable()
 }
