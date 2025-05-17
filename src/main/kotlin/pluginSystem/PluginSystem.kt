@@ -34,6 +34,10 @@ class PluginSystem {
         shutDownPlugins()
     }
 
+    fun getPlugins(): Map<String, IPlugin> {
+        return _plugins.toMap()
+    }
+
     private fun registerPlugins() {
         // TODO: Not sustainable for all plugins, need to find a way to dynamically search for all available plugins
         _plugins.put("core", CorePlugin(systemScope.coroutineContext))
