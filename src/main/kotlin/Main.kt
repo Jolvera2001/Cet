@@ -15,28 +15,34 @@ import androidx.compose.ui.window.application
 import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea
 import org.fife.ui.rsyntaxtextarea.SyntaxConstants
 import org.fife.ui.rtextarea.RTextScrollPane
+import org.koin.core.context.GlobalContext.startKoin
+import org.koin.java.KoinJavaComponent.inject
 import javax.swing.BoxLayout
 import javax.swing.JPanel
 
 
-fun main() = application {
-    Window(
-        onCloseRequest = ::exitApplication,
-    ) {
-        App()
+fun main() {
+    startAppKoin()
+
+    application {
+        Window(
+            onCloseRequest = ::exitApplication,
+        ) {
+            App()
+        }
+
     }
 }
 
 @Composable
 @Preview
 fun App() {
+
+    val pluginSystem: PluginSystem by inject()
+
     val state = mutableStateOf("public static void main(String[] args) {\n\n}")
 
-    // just to instantiate
-    // var ps = PluginSystem()
-
     MaterialTheme {
-        // row above editor
         Column(
             modifier = Modifier
                 .fillMaxSize()
