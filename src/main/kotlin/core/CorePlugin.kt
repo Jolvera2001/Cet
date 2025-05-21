@@ -1,5 +1,7 @@
 package core
 
+import androidx.compose.material.Text
+import androidx.compose.runtime.Composable
 import pluginSystem.CetEvent
 import pluginSystem.EventHandler
 import pluginSystem.IPlugin
@@ -9,6 +11,7 @@ import kotlinx.coroutines.cancel
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
+import pluginSystem.UIAreas
 
 class CorePlugin() : IPlugin {
     override val id = "core"
@@ -59,6 +62,18 @@ class CorePlugin() : IPlugin {
                 scope.cancel()
             }
         }
+    }
+
+    @Composable
+    override fun Render(areas: UIAreas) {
+        when (areas) {
+            UIAreas.MainArea -> CoreMainAreaUI()
+            else -> Text("I should not exist...")
+        }
+    }
+
+    private fun CoreMainAreaUI() {
+        // editor here...
     }
 }
 

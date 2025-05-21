@@ -1,5 +1,6 @@
 import pluginSystem.PluginSystem
 import androidx.compose.desktop.ui.tooling.preview.Preview
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.Composable
@@ -19,7 +20,9 @@ import javax.swing.JPanel
 
 
 fun main() = application {
-    Window(onCloseRequest = ::exitApplication) {
+    Window(
+        onCloseRequest = ::exitApplication,
+    ) {
         App()
     }
 }
@@ -34,15 +37,20 @@ fun App() {
 
     MaterialTheme {
         // row above editor
-         Row(
-             modifier = Modifier
-                 .fillMaxWidth()
-                 .height(50.dp)
-                 .padding(10.dp),
-         ) {
-            // some ui here in this row
-         }
-        CodeEditor(state, modifier = Modifier.fillMaxSize().padding(10.dp))
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .background(Color.White)
+        ) {
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(10.dp)
+            ) {
+                // some ui here in this row
+            }
+            CodeEditor(state, modifier = Modifier.fillMaxSize().padding(10.dp))
+        }
     }
 }
 
@@ -64,9 +72,11 @@ fun CodeEditor(code: MutableState<String>, modifier: Modifier = Modifier) {
                     override fun insertUpdate(e: javax.swing.event.DocumentEvent) {
                         code.value = text
                     }
+
                     override fun removeUpdate(e: javax.swing.event.DocumentEvent) {
                         code.value = text
                     }
+
                     override fun changedUpdate(e: javax.swing.event.DocumentEvent) {
                         code.value = text
                     }
