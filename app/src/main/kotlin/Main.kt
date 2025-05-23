@@ -10,36 +10,36 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.awt.SwingPanel
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.window.Window
-import androidx.compose.ui.window.application
 import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea
 import org.fife.ui.rsyntaxtextarea.SyntaxConstants
 import org.fife.ui.rtextarea.RTextScrollPane
-import org.koin.core.context.GlobalContext.startKoin
 import org.koin.java.KoinJavaComponent.inject
 import javax.swing.BoxLayout
 import javax.swing.JPanel
 
 
 fun main() {
+    // moving to an approach where plugin System owns the UI
     startAppKoin()
+    val pluginSystem: PluginSystem by inject()
+    pluginSystem.startup()
+    pluginSystem.renderApplication()
 
-    application {
-        Window(
-            onCloseRequest = ::exitApplication,
-        ) {
-            App()
-        }
-
-    }
+//    startAppKoin()
+//
+//    application {
+//        Window(
+//            onCloseRequest = ::exitApplication,
+//        ) {
+//            App()
+//        }
+//
+//    }
 }
 
 @Composable
 @Preview
 fun App() {
-
-    val pluginSystem: PluginSystem by inject()
-
     val state = mutableStateOf("public static void main(String[] args) {\n\n}")
 
     MaterialTheme {
