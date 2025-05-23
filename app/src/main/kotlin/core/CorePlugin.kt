@@ -1,5 +1,6 @@
 package core
 
+import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import pluginSystem.CetEvent
@@ -66,15 +67,28 @@ class CorePlugin() : IPlugin {
 
     @Composable
     override fun Render(areas: UIAreas) {
-        when (areas) {
-            UIAreas.MainArea -> CoreMainAreaUI()
-            else -> Text("I should not exist...")
+
+    }
+
+    @Composable
+    fun RootUI() {
+        // Main App Layout here
+        MaterialTheme {
+            Text("Hello world!")
         }
     }
 
-    private fun CoreMainAreaUI() {
-        // editor here...
-    }
+//    @Composable
+//    override fun Render(areas: UIAreas) {
+//        when (areas) {
+//            UIAreas.MainArea -> CoreMainAreaUI()
+//            else -> Text("I should not exist...")
+//        }
+//    }
+//
+//    private fun CoreMainAreaUI() {
+//        // editor here...
+//    }
 }
 
 sealed class CoreEvents : CetEvent.PluginEvent() {

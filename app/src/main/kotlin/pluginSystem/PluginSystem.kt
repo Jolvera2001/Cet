@@ -1,9 +1,8 @@
 package pluginSystem
 
+import androidx.compose.runtime.Composable
 import core.CorePlugin
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.launch
 import java.util.ServiceLoader
@@ -20,7 +19,15 @@ class PluginSystem(eventHandler: EventHandler, context: CoroutineContext) {
     private val _plugins = mutableMapOf<String, IPlugin>()
     private val systemScope = CoroutineScope(context)
 
-    fun startup() {
+    @Composable
+    fun renderApplication() {
+        val corePlugin = _plugins["core"] as? CorePlugin
+            ?: throw IllegalStateException("Core plugin not found")
+
+        corePlugin.RootUI()
+    }
+
+    fun start() {
         registerPlugins()
 
         systemScope.launch {

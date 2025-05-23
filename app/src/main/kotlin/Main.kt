@@ -10,21 +10,37 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.awt.SwingPanel
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.window.Window
+import androidx.compose.ui.window.application
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.SupervisorJob
 import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea
 import org.fife.ui.rsyntaxtextarea.SyntaxConstants
 import org.fife.ui.rtextarea.RTextScrollPane
 import org.koin.java.KoinJavaComponent.inject
+import pluginSystem.EventHandler
 import javax.swing.BoxLayout
 import javax.swing.JPanel
+import kotlin.system.exitProcess
 
 
-fun main() {
+fun main() = application {
     // moving to an approach where plugin System owns the UI
-    startAppKoin()
-    val pluginSystem: PluginSystem by inject()
-    pluginSystem.startup()
-    pluginSystem.renderApplication()
+    val eventHandler = EventHandler()
+    val pluginSystem = PluginSystem(eventHandler, Dispatchers.Default + SupervisorJob())
 
+    // register plugins first
+    pluginSystem.start()
+
+    Window(
+        onCloseRequest = {
+            pluginSystem.stop()
+            exitApplication()
+        },
+        title = "Cet"
+    ) {
+        pluginSystem.renderApplication()
+    }
 //    startAppKoin()
 //
 //    application {
