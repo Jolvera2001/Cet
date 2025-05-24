@@ -2,10 +2,13 @@ package core
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.material.MaterialTheme
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.AccountBox
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import core.ui.MainArea
 import core.ui.SideBar
+import core.ui.SideBarItem
 import core.ui.TopBar
 import pluginSystem.CetEvent
 import pluginSystem.EventHandler
@@ -72,7 +75,8 @@ class CorePlugin() : IPlugin {
     // we won't need to do this, might just end up using it later,
     // but I want to use a different function for now
     @Composable
-    override fun Render(areas: UIAreas) {}
+    override fun Render(areas: UIAreas) {
+    }
 
     @Composable
     fun RootUI() {
@@ -81,7 +85,7 @@ class CorePlugin() : IPlugin {
             Column {
                 TopBar()
                 Row {
-                    SideBar()
+                    SideBar(sideBarItems = exampleItems())
                     MainArea()
                 }
             }
@@ -99,6 +103,17 @@ class CorePlugin() : IPlugin {
 //    private fun CoreMainAreaUI() {
 //        // editor here...
 //    }
+
+    private fun exampleItems(): List<SideBarItem> {
+        return listOf(
+            SideBarItem(
+                id = "Explorer",
+                icon = Icons.Default.AccountBox,
+                tooltip = "Folder Explorer"
+            ) {},
+
+            )
+    }
 }
 
 sealed class CoreEvents : CetEvent.PluginEvent() {

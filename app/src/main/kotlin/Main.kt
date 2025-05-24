@@ -17,11 +17,9 @@ import kotlinx.coroutines.SupervisorJob
 import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea
 import org.fife.ui.rsyntaxtextarea.SyntaxConstants
 import org.fife.ui.rtextarea.RTextScrollPane
-import org.koin.java.KoinJavaComponent.inject
 import pluginSystem.EventHandler
 import javax.swing.BoxLayout
 import javax.swing.JPanel
-import kotlin.system.exitProcess
 
 
 fun main() = application {
