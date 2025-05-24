@@ -1,8 +1,12 @@
 package core
 
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import core.ui.MainArea
+import core.ui.SideBar
+import core.ui.TopBar
 import pluginSystem.CetEvent
 import pluginSystem.EventHandler
 import pluginSystem.IPlugin
@@ -65,16 +69,22 @@ class CorePlugin() : IPlugin {
         }
     }
 
+    // we won't need to do this, might just end up using it later,
+    // but I want to use a different function for now
     @Composable
-    override fun Render(areas: UIAreas) {
-
-    }
+    override fun Render(areas: UIAreas) {}
 
     @Composable
     fun RootUI() {
         // Main App Layout here
         MaterialTheme {
-            Text("Hello world!")
+            Column {
+                TopBar()
+                Row {
+                    SideBar()
+                    MainArea()
+                }
+            }
         }
     }
 

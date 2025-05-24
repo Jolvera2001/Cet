@@ -33,6 +33,7 @@ fun main() = application {
     pluginSystem.start()
 
     Window(
+        alwaysOnTop = true,
         onCloseRequest = {
             pluginSystem.stop()
             exitApplication()

@@ -44,14 +44,16 @@ tasks.withType<Test>().configureEach {
     useJUnitPlatform()
 }
 
-compose.desktop {
-    application {
-        mainClass = "MainKt"
+compose {
+    desktop {
+        application {
+            mainClass = "MainKt"
 
-        nativeDistributions {
-            targetFormats(TargetFormat.Dmg, TargetFormat.Msi, TargetFormat.Deb)
-            packageName = "Cet"
-            packageVersion = "1.0.0"
+            nativeDistributions {
+                targetFormats(TargetFormat.Dmg, TargetFormat.Msi, TargetFormat.Deb)
+                packageName = "Cet"
+                packageVersion = "1.0.0"
+            }
         }
     }
 }
