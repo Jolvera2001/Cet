@@ -86,8 +86,7 @@ class EditorPlugin() : IPlugin, IContentProvider {
 
         SwingPanel(
             modifier = Modifier
-                .fillMaxSize()
-                .padding(10.dp),
+                .fillMaxSize(),
             background = Color.White,
             factory = {
                 // Create a new text area each time
