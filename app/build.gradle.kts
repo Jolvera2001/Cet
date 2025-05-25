@@ -1,8 +1,5 @@
 import org.jetbrains.compose.desktop.application.dsl.TargetFormat
 
-val kotestVersion: String by rootProject.extra
-val koinVersion: String by rootProject.extra
-
 plugins {
     kotlin("jvm")
     id("org.jetbrains.compose")
