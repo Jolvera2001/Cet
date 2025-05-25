@@ -13,7 +13,7 @@ val testModulePluginSystem = module {
     // TODO: learn how to define this better
     single<EventHandler>{
         mockk<EventHandler>(relaxed = true).apply {
-            every { Subscribe() } returns mockk(relaxed = true)
+            every { subscribe() } returns mockk(relaxed = true)
         }
     }
     factory<kotlin.coroutines.CoroutineContext> { StandardTestDispatcher() + SupervisorJob() }
@@ -23,7 +23,7 @@ val testModulePluginSystem = module {
 val testModulePluginCore = module {
     single<EventHandler>{
         mockk<EventHandler>(relaxed = true).apply {
-            every { Subscribe() } returns mockk(relaxed = true)
+            every { subscribe() } returns mockk(relaxed = true)
         }
     }
     factory<kotlin.coroutines.CoroutineContext> { StandardTestDispatcher() + SupervisorJob() }

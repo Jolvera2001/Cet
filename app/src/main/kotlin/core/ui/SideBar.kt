@@ -22,6 +22,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.dp
+import pluginSystem.SideBarItem
 
 @Preview
 @Composable
@@ -104,11 +105,4 @@ fun SideBarButton(
         )
     }
 }
-
-data class SideBarItem(
-    val id: String,
-    val icon: ImageVector,
-    val tooltip: String,
-    val onClick: () -> Unit
-)
 

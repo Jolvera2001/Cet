@@ -48,7 +48,7 @@ class CorePluginTest : FunSpec(), KoinTest {
 
                 corePlugin.onInitialize(mockEventHandler, testScope)
 
-                verify { mockEventHandler.Subscribe() }
+                verify { mockEventHandler.subscribe() }
                 corePlugin.state shouldBe PluginState.ACTIVE
             }
             test("core plugin disable success") {
@@ -59,7 +59,7 @@ class CorePluginTest : FunSpec(), KoinTest {
                 corePlugin.onInitialize(mockEventHandler, testScope)
                 corePlugin.onDisable()
 
-                verify { mockEventHandler.Subscribe() }
+                verify { mockEventHandler.subscribe() }
                 corePlugin.state shouldBe PluginState.DISABLED
             }
         }
@@ -75,15 +75,15 @@ class CorePluginTest : FunSpec(), KoinTest {
                 val testDispatcher = StandardTestDispatcher()
                 val testScope = CoroutineScope(testDispatcher)
 
-                coEvery { mockEventHandler.Publish(capture(captureEvents)) } returns Unit
+                coEvery { mockEventHandler.publish(capture(captureEvents)) } returns Unit
                 corePlugin.onInitialize(mockEventHandler, testScope)
 
                 // Advance time on our specific dispatcher
                 testDispatcher.scheduler.advanceUntilIdle()
 
-                coVerify { mockEventHandler.Publish(any()) }
+                coVerify { mockEventHandler.publish(any()) }
                 captureEvents.size shouldBe 1
-                captureEvents.first().shouldBeTypeOf<CetEvent.BaseEvents.PluginLifecycleEvent>()
+                captureEvents.first().shouldBeTypeOf<CetEvent.BaseEvents.PluginLifecycle>()
             }
             test("core plugin sends events on full lifecycle") {
                 val captureEvents = mutableListOf<CetEvent>()
@@ -95,24 +95,24 @@ class CorePluginTest : FunSpec(), KoinTest {
                 val testDispatcher = StandardTestDispatcher()
                 val testScope = CoroutineScope(testDispatcher)
 
-                coEvery { mockEventHandler.Publish(capture(captureEvents)) } returns Unit
+                coEvery { mockEventHandler.publish(capture(captureEvents)) } returns Unit
                 corePlugin.onInitialize(mockEventHandler, testScope)
 
                 // Advance time on our specific dispatcher
                 testDispatcher.scheduler.advanceUntilIdle()
 
                 captureEvents.size shouldBe 1
-                captureEvents.first().shouldBeTypeOf<CetEvent.BaseEvents.PluginLifecycleEvent>()
-                val firstEvent = captureEvents.first() as CetEvent.BaseEvents.PluginLifecycleEvent
+                captureEvents.first().shouldBeTypeOf<CetEvent.BaseEvents.PluginLifecycle>()
+                val firstEvent = captureEvents.first() as CetEvent.BaseEvents.PluginLifecycle
                 firstEvent.state shouldBe PluginState.ACTIVE
 
                 corePlugin.onDisable()
                 testDispatcher.scheduler.advanceUntilIdle()
 
                 captureEvents.size shouldBe 2
-                captureEvents[1].shouldBeTypeOf<CetEvent.BaseEvents.PluginLifecycleEvent>()
+                captureEvents[1].shouldBeTypeOf<CetEvent.BaseEvents.PluginLifecycle>()
                 corePlugin.state shouldBe PluginState.DISABLED
-                coVerify(exactly = 2) { mockEventHandler.Publish(any()) }
+                coVerify(exactly = 2) { mockEventHandler.publish(any()) }
             }
         }
     }

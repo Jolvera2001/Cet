@@ -8,7 +8,6 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import core.ui.MainArea
 import core.ui.SideBar
-import core.ui.SideBarItem
 import core.ui.TopBar
 import pluginSystem.CetEvent
 import pluginSystem.EventHandler
@@ -16,9 +15,9 @@ import pluginSystem.IPlugin
 import pluginSystem.PluginState
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.cancel
-import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
+import pluginSystem.SideBarItem
 import pluginSystem.UIAreas
 
 class CorePlugin() : IPlugin {
@@ -35,34 +34,36 @@ class CorePlugin() : IPlugin {
         this.scope = scope
 
         scope.launch {
-            val lifeCycleEvent = CetEvent.BaseEvents.PluginLifecycleEvent(
+            val lifeCycleEvent = CetEvent.BaseEvents.PluginLifecycle(
                 pluginId = id,
                 state = state,
-                name = "Core Plugin Initialized",
                 timestamp = System.currentTimeMillis(),
             )
-            eventHandler.Publish(lifeCycleEvent)
+            eventHandler.publish(lifeCycleEvent)
         }
 
-        eventHandler.Subscribe().onEach { event ->
-            when (event) {
-                // TODO: define events
-            }
-        }.launchIn(scope)
+        eventHandler.subscribe<CetEvent.UIEvent.RegisterSidebarItem>().onEach {
+
+        }
+
+//        eventHandler.Subscribe().onEach { event ->
+//            when (event) {
+//                // TODO: define events
+//            }
+//        }.launchIn(scope)
     }
 
     override fun onDisable() {
         state = PluginState.DISABLED
-        val lifeCycleEvent = CetEvent.BaseEvents.PluginLifecycleEvent(
+        val lifeCycleEvent = CetEvent.BaseEvents.PluginLifecycle(
             pluginId = id,
             state = state,
-            name = "Core Plugin Disabled",
             timestamp = System.currentTimeMillis(),
         )
 
         if (::scope.isInitialized) {
             val publishJob = scope.launch {
-                eventHandler.Publish(lifeCycleEvent)
+                eventHandler.publish(lifeCycleEvent)
             }
 
             scope.launch {
