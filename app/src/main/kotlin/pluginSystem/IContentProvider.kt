@@ -12,5 +12,5 @@ data class SideBarItem(
     val id: String,
     val icon: ImageVector,
     val tooltip: String,
-    val onClick: () -> Unit
+    val contentProviderId: String? = null
 )

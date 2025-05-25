@@ -24,25 +24,26 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.dp
 import pluginSystem.SideBarItem
 
-@Preview
-@Composable
-fun SideBarPreview() {
-    val items = listOf(
-        SideBarItem(
-            id = "Explorer",
-            icon = Icons.Default.AccountBox,
-            tooltip = "Folder Explorer"
-        ) {},
-        
-    )
-
-    SideBar(sideBarItems = items)
-}
+//@Preview
+//@Composable
+//fun SideBarPreview() {
+//    val items = listOf(
+//        SideBarItem(
+//            id = "Explorer",
+//            icon = Icons.Default.AccountBox,
+//            tooltip = "Folder Explorer"
+//        ),
+//
+//    )
+//
+//    SideBar(sideBarItems = items)
+//}
 
 @Composable
 fun SideBar(
     sideBarItems: List<SideBarItem>,
     selectedItemId: String? = null,
+    onItemClick: (SideBarItem) -> Unit,
     modifier: Modifier = Modifier
 ) {
     Surface(
