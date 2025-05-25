@@ -44,7 +44,9 @@ class PluginSystem(eventHandler: EventHandler, context: CoroutineContext) {
 
     private fun registerPlugins() {
         val loader = ServiceLoader.load(IPlugin::class.java)
-        loader.forEach { plugin: IPlugin -> _plugins.put(plugin.id, plugin) }
+        val plugins = loader.toList()
+
+        plugins.forEach { plugin -> _plugins[plugin.id] = plugin }
     }
 
     private suspend fun startPlugins() {

@@ -1,3 +1,4 @@
+
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
@@ -16,10 +17,9 @@ import org.fife.ui.rtextarea.RTextScrollPane
 import javax.swing.BoxLayout
 import javax.swing.JPanel
 
-class EditorPlugin(
-    override val id: String,
-    override val version: String,
-) : IPlugin, IContentProvider {
+class EditorPlugin() : IPlugin, IContentProvider {
+    override val id: String = "editor-plugin"
+    override val version: String = "0.1.0"
     private val providerId: String = "editor-main"
     private val tooltipText: String = "Code Editor"
     private var state = PluginState.STOPPED

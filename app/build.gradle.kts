@@ -39,7 +39,7 @@ dependencies {
 
     // modules
     implementation(project(":core"))
-    implementation(project(":editor-plugin"))
+    runtimeOnly(project(":editor-plugin"))
 }
 
 tasks.withType<Test>().configureEach {
