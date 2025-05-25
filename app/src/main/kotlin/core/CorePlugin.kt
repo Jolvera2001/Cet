@@ -2,15 +2,12 @@ package core
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.AccountBox
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import core.ui.MainArea
 import core.ui.SideBar
-import core.ui.TopBar
 import pluginSystem.CetEvent
 import pluginSystem.EventHandler
 import pluginSystem.IPlugin
@@ -52,12 +49,12 @@ class CorePlugin() : IPlugin {
 
         eventHandler.subscribe<CetEvent.UIEvent.RegisterSidebarItem>()
             .onEach { event ->
-
+                viewModel.addNewSidebarItem(event.item)
             }.launchIn(scope)
 
         eventHandler.subscribe<CetEvent.UIEvent.RegisterContent>()
             .onEach { event ->
-
+                viewModel.addNewProvider(event.providerId, event.contentProvider)
             }.launchIn(scope)
     }
 
