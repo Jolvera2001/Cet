@@ -18,3 +18,4 @@ rootProject.name = "Cet"
 
 include("editor-plugin")
 include("app")
+include("core")

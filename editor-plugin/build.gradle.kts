@@ -20,8 +20,11 @@ dependencies {
     implementation("io.insert-koin:koin-core-coroutines")
     implementation("io.insert-koin:koin-compose")
 
-    // app module
-    implementation(project(":app"))
+    // editor placeholder
+    implementation("com.fifesoft:rsyntaxtextarea:3.1.3")
+
+    // module
+    implementation(project(":core"))
 }
 
 tasks.test {

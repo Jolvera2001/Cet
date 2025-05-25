@@ -8,6 +8,7 @@ import kotlinx.coroutines.test.StandardTestDispatcher
 import org.koin.dsl.module
 import pluginSystem.EventHandler
 import pluginSystem.PluginSystem
+import kotlin.coroutines.CoroutineContext
 
 val testModulePluginSystem = module {
     // TODO: learn how to define this better
@@ -16,7 +17,7 @@ val testModulePluginSystem = module {
             every { subscribe() } returns mockk(relaxed = true)
         }
     }
-    factory<kotlin.coroutines.CoroutineContext> { StandardTestDispatcher() + SupervisorJob() }
+    factory<CoroutineContext> { StandardTestDispatcher() + SupervisorJob() }
     single { PluginSystem(get(), get()) }
 }
 
@@ -26,6 +27,6 @@ val testModulePluginCore = module {
             every { subscribe() } returns mockk(relaxed = true)
         }
     }
-    factory<kotlin.coroutines.CoroutineContext> { StandardTestDispatcher() + SupervisorJob() }
+    factory<CoroutineContext> { StandardTestDispatcher() + SupervisorJob() }
     factory { CorePlugin() }
 }

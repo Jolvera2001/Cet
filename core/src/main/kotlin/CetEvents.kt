@@ -1,5 +1,3 @@
-package pluginSystem
-
 abstract class CetEvent {
     abstract val timestamp: Long
 

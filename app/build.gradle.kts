@@ -33,12 +33,13 @@ dependencies {
     implementation(compose.desktop.currentOs)
     implementation(compose.material3)
 
-    // editor
-    implementation("com.fifesoft:rsyntaxtextarea:3.1.3")
-
     // DI
     implementation("io.insert-koin:koin-core-coroutines")
     implementation("io.insert-koin:koin-compose")
+
+    // modules
+    implementation(project(":core"))
+    implementation(project(":editor-plugin"))
 }
 
 tasks.withType<Test>().configureEach {

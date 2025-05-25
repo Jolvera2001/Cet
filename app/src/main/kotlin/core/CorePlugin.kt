@@ -8,10 +8,10 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import core.ui.MainArea
 import core.ui.SideBar
-import pluginSystem.CetEvent
-import pluginSystem.EventHandler
-import pluginSystem.IPlugin
-import pluginSystem.PluginState
+import CetEvent
+import EventHandler
+import IPlugin
+import PluginState
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -20,11 +20,11 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
-import pluginSystem.IContentProvider
-import pluginSystem.SideBarItem
-import pluginSystem.UIAreas
+import IContentProvider
+import ICorePlugin
+import SideBarItem
 
-class CorePlugin() : IPlugin {
+class CorePlugin() : IPlugin, ICorePlugin {
     override val id = "core"
     override val version = "0.1.0"
     var state = PluginState.STOPPED
@@ -33,7 +33,7 @@ class CorePlugin() : IPlugin {
 
     private lateinit var eventHandler: EventHandler
 
-    override fun onInitialize(eventHandler: EventHandler, scope: CoroutineScope) {
+    override suspend fun onInitialize(eventHandler: EventHandler, scope: CoroutineScope) {
         state = PluginState.ACTIVE
         this.eventHandler = eventHandler
         this.scope = scope
@@ -79,7 +79,7 @@ class CorePlugin() : IPlugin {
     }
 
     @Composable
-    fun RootUI() {
+    override fun RootUI() {
         val currentState by viewModel.state.collectAsState()
 
         MaterialTheme {

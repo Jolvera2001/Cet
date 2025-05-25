@@ -15,9 +15,6 @@ import org.koin.core.context.startKoin
 import org.koin.core.context.stopKoin
 import org.koin.test.KoinTest
 import org.koin.test.get
-import pluginSystem.CetEvent
-import pluginSystem.EventHandler
-import pluginSystem.PluginState
 
 @OptIn(ExperimentalCoroutinesApi::class)
 class CorePluginTest : FunSpec(), KoinTest {

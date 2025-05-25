@@ -1,25 +1,21 @@
 import io.kotest.core.spec.style.FunSpec
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.shouldNotBe
-import modules.testModulePluginSystem
-import org.koin.core.context.GlobalContext.startKoin
-import org.koin.core.context.GlobalContext.stopKoin
+import org.koin.core.context.GlobalContext
 import org.koin.test.KoinTest
 import org.koin.test.get
-import pluginSystem.IPlugin
-import pluginSystem.PluginSystem
 
 class PluginSystemTests : FunSpec(), KoinTest {
     init {
         beforeTest {
-            stopKoin()
-            startKoin {
+            GlobalContext.stopKoin()
+            GlobalContext.startKoin {
                 modules(testModulePluginSystem)
             }
         }
 
         afterTest {
-            stopKoin()
+            GlobalContext.stopKoin()
         }
 
         context("plugin system lifecycle related tests") {
