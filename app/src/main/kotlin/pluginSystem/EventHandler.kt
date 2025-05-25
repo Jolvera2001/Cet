@@ -17,12 +17,12 @@ class EventHandler {
     val events = _events.asSharedFlow()
 
     /**
-     * Provides access to event stream for plugins to subscribe to.
+     * Provides access to event flow for plugins to subscribe to.
      * Here is a starting example:
      * ```
      * override fun onInitialize(eventHandler: EventHandler) {
      *         state = PluginState.ACTIVE
-     *         eventHandler.Subscribe().onEach { event ->
+     *         eventHandler.Subscribe<SomeEvent>().onEach { event ->
      *             when (event) {
      *                 // TODO: define events
      *             }
@@ -30,7 +30,7 @@ class EventHandler {
      *     }
      * ```
      *
-     * @return A SharedFlow that emits all published events on the event system
+     * @return A flow emitting the specified event type
      */
     inline fun <reified T: CetEvent> subscribe(): Flow<T> = events.filterIsInstance<T>()
 

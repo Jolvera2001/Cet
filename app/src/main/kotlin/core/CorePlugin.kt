@@ -15,6 +15,7 @@ import pluginSystem.IPlugin
 import pluginSystem.PluginState
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.cancel
+import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import pluginSystem.SideBarItem
@@ -42,9 +43,15 @@ class CorePlugin() : IPlugin {
             eventHandler.publish(lifeCycleEvent)
         }
 
-        eventHandler.subscribe<CetEvent.UIEvent.RegisterSidebarItem>().onEach {
+        eventHandler.subscribe<CetEvent.UIEvent.RegisterSidebarItem>()
+            .onEach { event ->
 
-        }
+            }.launchIn(scope)
+
+        eventHandler.subscribe<CetEvent.UIEvent.RegisterContent>()
+            .onEach { event ->
+
+            }.launchIn(scope)
 
 //        eventHandler.Subscribe().onEach { event ->
 //            when (event) {
