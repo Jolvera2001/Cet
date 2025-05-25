@@ -48,7 +48,7 @@ class CorePluginTest : FunSpec(), KoinTest {
 
                 corePlugin.onInitialize(mockEventHandler, testScope)
 
-                verify { mockEventHandler.subscribe() }
+                verify { mockEventHandler.subscribe<CetEvent>() }
                 corePlugin.state shouldBe PluginState.ACTIVE
             }
             test("core plugin disable success") {
@@ -59,7 +59,7 @@ class CorePluginTest : FunSpec(), KoinTest {
                 corePlugin.onInitialize(mockEventHandler, testScope)
                 corePlugin.onDisable()
 
-                verify { mockEventHandler.subscribe() }
+                verify { mockEventHandler.subscribe<CetEvent>() }
                 corePlugin.state shouldBe PluginState.DISABLED
             }
         }

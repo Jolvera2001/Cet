@@ -40,16 +40,6 @@ fun main() = application {
     ) {
         pluginSystem.renderApplication()
     }
-//    startAppKoin()
-//
-//    application {
-//        Window(
-//            onCloseRequest = ::exitApplication,
-//        ) {
-//            App()
-//        }
-//
-//    }
 }
 
 @Composable

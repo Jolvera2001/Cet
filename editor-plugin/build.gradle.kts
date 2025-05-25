@@ -19,6 +19,9 @@ dependencies {
     // DI
     implementation("io.insert-koin:koin-core-coroutines")
     implementation("io.insert-koin:koin-compose")
+
+    // app module
+    implementation(project(":app"))
 }
 
 tasks.test {

@@ -8,8 +8,6 @@ interface IPlugin {
     val version: String
     fun onInitialize(eventHandler: EventHandler, scope: CoroutineScope)
     fun onDisable()
-    @Composable
-    fun Render(areas: UIAreas)
 }
 
 enum class UIAreas {

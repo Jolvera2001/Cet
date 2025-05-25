@@ -78,12 +78,6 @@ class CorePlugin() : IPlugin {
         }
     }
 
-    // we won't need to do this, might just end up using it later,
-    // but I want to use a different function for now
-    @Composable
-    override fun Render(areas: UIAreas) {
-    }
-
     @Composable
     fun RootUI() {
         val currentState by viewModel.state.collectAsState()
