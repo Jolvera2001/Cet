@@ -2,8 +2,6 @@ import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.application
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
-import EventHandler
-import PluginSystem
 
 
 fun main() = application {

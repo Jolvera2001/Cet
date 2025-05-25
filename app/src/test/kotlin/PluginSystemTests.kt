@@ -1,6 +1,7 @@
 import io.kotest.core.spec.style.FunSpec
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.shouldNotBe
+import modules.testModulePluginSystem
 import org.koin.core.context.GlobalContext
 import org.koin.test.KoinTest
 import org.koin.test.get
