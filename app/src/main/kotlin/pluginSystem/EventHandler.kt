@@ -59,6 +59,10 @@ abstract class CetEvent {
         ) : BaseEvents()
     }
 
+    sealed class UIEvent : BaseEvents() {
+
+    }
+
     abstract class PluginEvent : CetEvent() {
         // left empty to let plugins implement
     }
