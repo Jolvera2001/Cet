@@ -13,7 +13,6 @@ import kotlinx.coroutines.launch
 import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea
 import org.fife.ui.rsyntaxtextarea.SyntaxConstants
 import org.fife.ui.rtextarea.RTextScrollPane
-import pluginSystem.*
 import javax.swing.BoxLayout
 import javax.swing.JPanel
 
