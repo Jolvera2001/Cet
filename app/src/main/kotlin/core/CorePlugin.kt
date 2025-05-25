@@ -90,7 +90,7 @@ class CorePlugin() : IPlugin, ICorePlugin {
                         sideBarItems = currentState.sidebarItems,
                         selectedItemId = currentState.activeContentId,
                         onItemClick = { item ->
-                            currentState.activeContentId = item.contentProviderId
+                            viewModel.setActiveContent(item.contentProviderId)
                         }
                     )
                     MainArea(
@@ -129,7 +129,7 @@ class CoreViewModel() {
         )
     }
 
-    fun setActiveContent(contentId: String) {
+    fun setActiveContent(contentId: String?) {
         _state.value = _state.value.copy(activeContentId = contentId)
     }
 }

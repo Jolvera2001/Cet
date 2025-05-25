@@ -50,10 +50,14 @@ class PluginSystem(eventHandler: EventHandler, context: CoroutineContext) {
     }
 
     private suspend fun startPlugins() {
-        _plugins.forEach { (id, plugin) ->
+        // Initialize core plugin first
+        val corePlugin = _plugins["core"]
+        corePlugin?.onInitialize(_eventSystem, systemScope)
+
+        // Then initialize all other plugins
+        _plugins.filter { it.key != "core" }.forEach { (id, plugin) ->
             systemScope.launch {
                 plugin.onInitialize(_eventSystem, systemScope)
-
             }
         }
     }
