@@ -96,7 +96,7 @@ class CorePlugin() : IPlugin {
                 // TopBar()
                 Row {
                     SideBar(
-                        sideBarItems = exampleItems(),
+                        sideBarItems = currentState.sidebarItems,
                         selectedItemId = currentState.activeContentId,
                         onItemClick = { item ->
                             currentState.activeContentId = item.contentProviderId
@@ -109,17 +109,6 @@ class CorePlugin() : IPlugin {
                 }
             }
         }
-    }
-
-    private fun exampleItems(): List<SideBarItem> {
-        return listOf(
-            SideBarItem(
-                id = "Explorer",
-                icon = Icons.Default.AccountBox,
-                tooltip = "Folder Explorer"
-            ) {},
-
-            )
     }
 }
 

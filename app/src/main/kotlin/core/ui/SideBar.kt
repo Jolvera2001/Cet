@@ -59,7 +59,12 @@ fun SideBar(
             contentPadding = PaddingValues(8.dp),
         ) {
             items<SideBarItem>(sideBarItems) { item ->
-                SideBarButton(item.icon, item.tooltip, onClick = {})
+                SideBarButton(
+                    item.icon,
+                    item.tooltip,
+                    isSelected = item.contentProviderId == selectedItemId,
+                    onClick = { onItemClick(item) }
+                )
             }
         }
     }
