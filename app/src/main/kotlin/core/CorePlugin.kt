@@ -52,12 +52,6 @@ class CorePlugin() : IPlugin {
             .onEach { event ->
 
             }.launchIn(scope)
-
-//        eventHandler.Subscribe().onEach { event ->
-//            when (event) {
-//                // TODO: define events
-//            }
-//        }.launchIn(scope)
     }
 
     override fun onDisable() {
