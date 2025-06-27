@@ -20,15 +20,17 @@ class EditorPlugin() : IPlugin, IContentProvider {
     private val providerId: String = "editor-main"
     private val tooltipText: String = "Code Editor"
     private var state = PluginState.STOPPED
-    private lateinit var scope: CoroutineScope
-    private lateinit var eventHandler: EventHandler
+    private lateinit var pluginContext: PluginContext
 
-    override suspend fun onInitialize(eventHandler: EventHandler, scope: CoroutineScope) {
+    override suspend fun onInitialize(context: PluginContext) {
         state = PluginState.ACTIVE
-        this.scope = scope
+        this.pluginContext = context
+
+        val scope = pluginContext.scope
+        val eventSystem = pluginContext.eventSystem
 
         scope.launch {
-            eventHandler.publish(
+            eventSystem.publish(
                 CetEvent.UIEvent.RegisterContent(
                     pluginId = id,
                     providerId = providerId,
@@ -37,7 +39,7 @@ class EditorPlugin() : IPlugin, IContentProvider {
                 )
             )
 
-            eventHandler.publish(
+            eventSystem.publish(
                 CetEvent.UIEvent.RegisterSidebarItem(
                     pluginId = id,
                     timestamp = System.currentTimeMillis(),
@@ -54,15 +56,18 @@ class EditorPlugin() : IPlugin, IContentProvider {
 
     override fun onDisable() {
         state = PluginState.DISABLED
+        val scope = pluginContext.scope
+        val eventSystem = pluginContext.eventSystem
+
         val lifeCycleEvent = CetEvent.BaseEvents.PluginLifecycle(
             pluginId = id,
             state = state,
             timestamp = System.currentTimeMillis(),
         )
 
-        if (::scope.isInitialized) {
+        if (::pluginContext.isInitialized) {
             val publishJob = scope.launch {
-                eventHandler.publish(lifeCycleEvent)
+                eventSystem.publish(lifeCycleEvent)
             }
 
             scope.launch {
