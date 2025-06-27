@@ -26,21 +26,20 @@ fun SideBar(
     sideBarItems: List<SideBarItem>,
     selectedItemId: String? = null,
     onItemClick: (SideBarItem) -> Unit,
-    modifier: Modifier = Modifier
 ) {
     Surface(
         modifier = Modifier
             .fillMaxHeight()
             .width(48.dp),
         color = MaterialTheme.colorScheme.surfaceVariant,
-        tonalElevation = 2.dp,
+        tonalElevation = 3.dp,
     ) {
         LazyColumn(
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.spacedBy(4.dp),
-            contentPadding = PaddingValues(8.dp),
+            contentPadding = PaddingValues(0.dp, 8.dp, 0.dp, 8.dp),
         ) {
-            items<SideBarItem>(sideBarItems) { item ->
+            items(sideBarItems) { item ->
                 SideBarButton(
                     item.icon,
                     item.tooltip,
