@@ -1,5 +1,10 @@
 import javax.management.monitor.StringMonitor
 
+/**
+ * Event type to be sent into the EventSystem.
+ * Contains PluginEvent abstract class to extend
+ * for custom plugin events
+ */
 abstract class CetEvent {
     abstract val timestamp: Long
 
@@ -31,5 +36,6 @@ abstract class CetEvent {
         ) : UIEvent()
     }
 
+    // TODO: Add in tagging system for other plugins to listen for other specific plugins without coupling
     abstract class PluginEvent : CetEvent()
 }
