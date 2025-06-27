@@ -4,7 +4,7 @@ import kotlinx.coroutines.CoroutineScope
 interface IPlugin {
     val id: String
     val version: String
-    suspend fun onInitialize(eventHandler: EventHandler, scope: CoroutineScope)
+    suspend fun onInitialize(context: PluginContext)
     fun onDisable()
 }
 

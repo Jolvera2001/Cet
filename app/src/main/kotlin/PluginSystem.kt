@@ -9,12 +9,10 @@ import kotlin.coroutines.CoroutineContext
 /**
  * Core system that handles plugins for the Cet app.
  * Planned to have an event system and plugin tracking
- *
  */
-// TODO: Once we have a basic implementation, work on coroutine usage
 class PluginSystem(eventHandler: EventHandler, context: CoroutineContext) {
-    private val _eventSystem = eventHandler
     private val _plugins = mutableMapOf<String, IPlugin>()
+    private val _eventSystem = eventHandler
     private val systemScope = CoroutineScope(context)
 
     @Composable
@@ -50,14 +48,16 @@ class PluginSystem(eventHandler: EventHandler, context: CoroutineContext) {
     }
 
     private suspend fun startPlugins() {
+        val pluginContext = PluginContext(_eventSystem, systemScope)
+
         // Initialize core plugin first
         val corePlugin = _plugins["core"]
-        corePlugin?.onInitialize(_eventSystem, systemScope)
+        corePlugin?.onInitialize(pluginContext)
 
         // Then initialize all other plugins
         _plugins.filter { it.key != "core" }.forEach { (id, plugin) ->
             systemScope.launch {
-                plugin.onInitialize(_eventSystem, systemScope)
+                plugin.onInitialize(pluginContext)
             }
         }
     }

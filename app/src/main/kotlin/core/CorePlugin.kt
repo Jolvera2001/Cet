@@ -21,6 +21,7 @@ import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import IContentProvider
 import ICorePlugin
+import PluginContext
 import SideBarItem
 
 class CorePlugin() : ICorePlugin {
@@ -28,14 +29,14 @@ class CorePlugin() : ICorePlugin {
     override val version = "0.1.0"
     var state = PluginState.STOPPED
     var viewModel = CoreViewModel()
-    private lateinit var scope: CoroutineScope
+    private lateinit var pluginContext: PluginContext
 
-    private lateinit var eventHandler: EventHandler
-
-    override suspend fun onInitialize(eventHandler: EventHandler, scope: CoroutineScope) {
+    override suspend fun onInitialize(context: PluginContext) {
         state = PluginState.ACTIVE
-        this.eventHandler = eventHandler
-        this.scope = scope
+        this.pluginContext = context
+
+        val scope = pluginContext.scope
+        val eventSystem = pluginContext.eventSystem
 
         scope.launch {
             val lifeCycleEvent = CetEvent.BaseEvents.PluginLifecycle(
@@ -43,15 +44,15 @@ class CorePlugin() : ICorePlugin {
                 state = state,
                 timestamp = System.currentTimeMillis(),
             )
-            eventHandler.publish(lifeCycleEvent)
+            eventSystem.publish(lifeCycleEvent)
         }
 
-        eventHandler.subscribe<CetEvent.UIEvent.RegisterSidebarItem>()
+        eventSystem.subscribe<CetEvent.UIEvent.RegisterSidebarItem>()
             .onEach { event ->
                 viewModel.addNewSidebarItem(event.item)
             }.launchIn(scope)
 
-        eventHandler.subscribe<CetEvent.UIEvent.RegisterContent>()
+        eventSystem.subscribe<CetEvent.UIEvent.RegisterContent>()
             .onEach { event ->
                 viewModel.addNewProvider(event.providerId, event.contentProvider)
             }.launchIn(scope)
@@ -59,15 +60,18 @@ class CorePlugin() : ICorePlugin {
 
     override fun onDisable() {
         state = PluginState.DISABLED
+        val scope = pluginContext.scope
+        val eventSystem = pluginContext.eventSystem
+
         val lifeCycleEvent = CetEvent.BaseEvents.PluginLifecycle(
             pluginId = id,
             state = state,
             timestamp = System.currentTimeMillis(),
         )
 
-        if (::scope.isInitialized) {
+        if (::pluginContext.isInitialized) {
             val publishJob = scope.launch {
-                eventHandler.publish(lifeCycleEvent)
+                eventSystem.publish(lifeCycleEvent)
             }
 
             scope.launch {
