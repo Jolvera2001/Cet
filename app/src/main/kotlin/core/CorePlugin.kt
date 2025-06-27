@@ -10,8 +10,6 @@ import androidx.compose.runtime.getValue
 import core.ui.MainArea
 import core.ui.SideBar
 import CetEvent
-import PluginState
-import kotlinx.coroutines.cancel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
