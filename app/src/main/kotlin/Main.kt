@@ -6,7 +6,7 @@ import kotlinx.coroutines.SupervisorJob
 
 fun main() = application {
     val eventHandler = EventHandler()
-    val pluginSystem = PluginSystem(eventHandler, Dispatchers.Default + SupervisorJob())
+    val pluginSystem = PluginSystem(eventHandler, Dispatchers.IO + SupervisorJob())
 
     pluginSystem.start()
 
