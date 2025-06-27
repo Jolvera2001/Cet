@@ -57,7 +57,15 @@ class PluginSystem(eventHandler: EventHandler, context: CoroutineContext) {
         // Then initialize all other plugins
         _plugins.filter { it.key != "core" }.forEach { (id, plugin) ->
             systemScope.launch {
-                plugin.onInitialize(pluginContext)
+                try {
+                    plugin.onInitialize(pluginContext)
+                } catch (e: Exception) {
+                    _eventSystem.publish(CetEvent.BaseEvents.SystemEvent(
+                        timestamp = System.currentTimeMillis(),
+                        message = "Error starting plugin: ${id}, ${e.message}; ${plugin.id}",
+                        type = "ERROR"
+                    ))
+                }
             }
         }
     }

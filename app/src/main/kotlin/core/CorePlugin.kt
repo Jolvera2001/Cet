@@ -45,6 +45,11 @@ class CorePlugin() : ICorePlugin {
             eventSystem.publish(lifeCycleEvent)
         }
 
+        eventSystem.subscribe<CetEvent.BaseEvents.SystemEvent>()
+            .onEach { event ->
+                println(event)
+            }.launchIn(scope)
+
         eventSystem.subscribe<CetEvent.UIEvent.RegisterSidebarItem>()
             .onEach { event ->
                 viewModel.addNewSidebarItem(event.item)

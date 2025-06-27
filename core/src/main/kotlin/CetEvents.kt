@@ -1,7 +1,14 @@
+import javax.management.monitor.StringMonitor
+
 abstract class CetEvent {
     abstract val timestamp: Long
 
     sealed class BaseEvents : CetEvent() {
+        data class SystemEvent(
+            override val timestamp: Long,
+            val message: String,
+            val type: String
+            ) : BaseEvents()
         data class PluginLifecycle(
             val pluginId: String,
             val state: PluginState,
