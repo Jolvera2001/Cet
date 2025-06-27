@@ -1,5 +1,6 @@
 package core
 
+import BasePlugin
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.material3.MaterialTheme
@@ -16,34 +17,21 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
-import kotlinx.coroutines.launch
 import IContentProvider
 import ICorePlugin
 import PluginContext
 import SideBarItem
 
-class CorePlugin() : ICorePlugin {
+class CorePlugin() : ICorePlugin, BasePlugin() {
     override val id = "core"
     override val version = "0.1.0"
-    var state = PluginState.STOPPED
     var viewModel = CoreViewModel()
-    private lateinit var pluginContext: PluginContext
 
     override suspend fun onInitialize(context: PluginContext) {
-        state = PluginState.ACTIVE
-        this.pluginContext = context
+        super.onInitialize(context)
 
         val scope = pluginContext.scope
         val eventSystem = pluginContext.eventSystem
-
-        scope.launch {
-            val lifeCycleEvent = CetEvent.BaseEvents.PluginLifecycle(
-                pluginId = id,
-                state = state,
-                timestamp = System.currentTimeMillis(),
-            )
-            eventSystem.publish(lifeCycleEvent)
-        }
 
         eventSystem.subscribe<CetEvent.BaseEvents.SystemEvent>()
             .onEach { event ->
@@ -59,29 +47,6 @@ class CorePlugin() : ICorePlugin {
             .onEach { event ->
                 viewModel.addNewProvider(event.providerId, event.contentProvider)
             }.launchIn(scope)
-    }
-
-    override fun onDisable() {
-        state = PluginState.DISABLED
-        val scope = pluginContext.scope
-        val eventSystem = pluginContext.eventSystem
-
-        val lifeCycleEvent = CetEvent.BaseEvents.PluginLifecycle(
-            pluginId = id,
-            state = state,
-            timestamp = System.currentTimeMillis(),
-        )
-
-        if (::pluginContext.isInitialized) {
-            val publishJob = scope.launch {
-                eventSystem.publish(lifeCycleEvent)
-            }
-
-            scope.launch {
-                publishJob.join()
-                scope.cancel()
-            }
-        }
     }
 
     @Composable

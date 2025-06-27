@@ -5,7 +5,6 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.awt.SwingPanel
 import androidx.compose.ui.graphics.Color
-import kotlinx.coroutines.cancel
 import kotlinx.coroutines.launch
 import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea
 import org.fife.ui.rsyntaxtextarea.SyntaxConstants
@@ -13,17 +12,14 @@ import org.fife.ui.rtextarea.RTextScrollPane
 import javax.swing.BoxLayout
 import javax.swing.JPanel
 
-class EditorPlugin() : IPlugin, IContentProvider {
+class EditorPlugin() : BasePlugin(), IContentProvider {
     override val id: String = "editor-plugin"
     override val version: String = "0.1.0"
     private val providerId: String = "editor-main"
     private val tooltipText: String = "Code Editor"
-    private var state = PluginState.STOPPED
-    private lateinit var pluginContext: PluginContext
 
     override suspend fun onInitialize(context: PluginContext) {
-        state = PluginState.ACTIVE
-        this.pluginContext = context
+        super.onInitialize(context)
 
         val scope = pluginContext.scope
         val eventSystem = pluginContext.eventSystem
@@ -50,29 +46,6 @@ class EditorPlugin() : IPlugin, IContentProvider {
                     ),
                 )
             )
-        }
-    }
-
-    override fun onDisable() {
-        state = PluginState.DISABLED
-        val scope = pluginContext.scope
-        val eventSystem = pluginContext.eventSystem
-
-        val lifeCycleEvent = CetEvent.BaseEvents.PluginLifecycle(
-            pluginId = id,
-            state = state,
-            timestamp = System.currentTimeMillis(),
-        )
-
-        if (::pluginContext.isInitialized) {
-            val publishJob = scope.launch {
-                eventSystem.publish(lifeCycleEvent)
-            }
-
-            scope.launch {
-                publishJob.join()
-                scope.cancel()
-            }
         }
     }
 
