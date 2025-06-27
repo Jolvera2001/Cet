@@ -10,7 +10,6 @@ import core.ui.MainArea
 import core.ui.SideBar
 import CetEvent
 import EventHandler
-import IPlugin
 import PluginState
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.cancel
@@ -24,7 +23,7 @@ import IContentProvider
 import ICorePlugin
 import SideBarItem
 
-class CorePlugin() : IPlugin, ICorePlugin {
+class CorePlugin() : ICorePlugin {
     override val id = "core"
     override val version = "0.1.0"
     var state = PluginState.STOPPED
@@ -101,10 +100,6 @@ class CorePlugin() : IPlugin, ICorePlugin {
             }
         }
     }
-}
-
-sealed class CoreEvents : CetEvent.PluginEvent() {
-//    data class()
 }
 
 data class CorePluginState(

@@ -1,7 +1,6 @@
 abstract class CetEvent {
     abstract val timestamp: Long
 
-    // some event available for plugins to use straightaway
     sealed class BaseEvents : CetEvent() {
         data class PluginLifecycle(
             val pluginId: String,
@@ -25,7 +24,5 @@ abstract class CetEvent {
         ) : UIEvent()
     }
 
-    abstract class PluginEvent : CetEvent() {
-        // left empty to let plugins implement
-    }
+    abstract class PluginEvent : CetEvent()
 }

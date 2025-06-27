@@ -13,10 +13,6 @@ interface ICorePlugin : IPlugin {
     fun RootUI()
 }
 
-enum class UIAreas {
-    MainArea
-}
-
 enum class PluginState {
     STOPPED,
     ACTIVE,

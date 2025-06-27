@@ -1,4 +1,3 @@
-
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Edit
@@ -87,14 +86,12 @@ class EditorPlugin() : IPlugin, IContentProvider {
                 .fillMaxSize(),
             background = Color.White,
             factory = {
-                // Create a new text area each time
                 val textArea = RSyntaxTextArea(20, 60).apply {
                     syntaxEditingStyle = SyntaxConstants.SYNTAX_STYLE_JAVA
                     isCodeFoldingEnabled = true
                     antiAliasingEnabled = true
                     text = code
 
-                    // Update the state when text changes
                     document.addDocumentListener(object : javax.swing.event.DocumentListener {
                         override fun insertUpdate(e: javax.swing.event.DocumentEvent) {
                             code = text
@@ -110,21 +107,17 @@ class EditorPlugin() : IPlugin, IContentProvider {
                     })
                 }
 
-                // Create scroll pane with text area
                 val scrollPane = RTextScrollPane(textArea)
 
-                // Create panel to hold the scroll pane
                 JPanel().apply {
                     layout = BoxLayout(this, BoxLayout.Y_AXIS)
                     add(scrollPane)
                 }
             },
             update = { panel ->
-                // Update logic if needed
                 val scrollPane = panel.components[0] as RTextScrollPane
                 val textArea = scrollPane.textArea as RSyntaxTextArea
 
-                // Only update if the text is different to avoid infinite loops
                 if (textArea.text != code) {
                     textArea.text = code
                 }
