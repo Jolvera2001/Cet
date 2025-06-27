@@ -15,6 +15,8 @@ dependencies {
     // compose
     implementation(compose.desktop.currentOs)
     implementation(compose.material3)
+    implementation("androidx.compose.material:material-icons-core:1.7.8")
+    implementation("androidx.compose.material:material-icons-extended:1.7.8")
 
     // DI
     implementation("io.insert-koin:koin-core-coroutines")
