@@ -1,4 +1,8 @@
+import androidx.compose.desktop.ui.tooling.preview.Preview
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.text.input.TextFieldLineLimits
+import androidx.compose.material.TextField
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Edit
 import androidx.compose.runtime.*
@@ -17,6 +21,7 @@ class EditorPlugin() : BasePlugin(), IContentProvider {
     override val version: String = "0.1.0"
     private val providerId: String = "editor-main"
     private val tooltipText: String = "Code Editor"
+    private val viewModel = CodeEditorViewModel()
 
     override suspend fun onInitialize(context: PluginContext) {
         super.onInitialize(context)
@@ -56,49 +61,13 @@ class EditorPlugin() : BasePlugin(), IContentProvider {
 
     @Composable
     private fun CodeEditor() {
-        var code by remember { mutableStateOf("") }
+        val currentState = viewModel.state.collectAsState()
 
-        SwingPanel(
+        TextField(
+            state = viewModel.state.value.content,
+            lineLimits = TextFieldLineLimits.MultiLine(),
             modifier = Modifier
                 .fillMaxSize(),
-            background = Color.White,
-            factory = {
-                val textArea = RSyntaxTextArea(20, 60).apply {
-                    syntaxEditingStyle = SyntaxConstants.SYNTAX_STYLE_JAVA
-                    isCodeFoldingEnabled = true
-                    antiAliasingEnabled = true
-                    text = code
-
-                    document.addDocumentListener(object : javax.swing.event.DocumentListener {
-                        override fun insertUpdate(e: javax.swing.event.DocumentEvent) {
-                            code = text
-                        }
-
-                        override fun removeUpdate(e: javax.swing.event.DocumentEvent) {
-                            code = text
-                        }
-
-                        override fun changedUpdate(e: javax.swing.event.DocumentEvent) {
-                            code = text
-                        }
-                    })
-                }
-
-                val scrollPane = RTextScrollPane(textArea)
-
-                JPanel().apply {
-                    layout = BoxLayout(this, BoxLayout.Y_AXIS)
-                    add(scrollPane)
-                }
-            },
-            update = { panel ->
-                val scrollPane = panel.components[0] as RTextScrollPane
-                val textArea = scrollPane.textArea as RSyntaxTextArea
-
-                if (textArea.text != code) {
-                    textArea.text = code
-                }
-            }
         )
     }
 }
