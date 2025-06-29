@@ -25,6 +25,9 @@ dependencies {
     // editor placeholder
     implementation("com.fifesoft:rsyntaxtextarea:3.1.3")
 
+    // tree sitter
+    implementation("io.github.tree-sitter:ktreesitter:0.24.1")
+
     // module
     implementation(project(":core"))
 }
