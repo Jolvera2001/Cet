@@ -21,13 +21,14 @@ class EditorPlugin() : BasePlugin(), IContentProvider {
     override val version: String = "0.1.0"
     private val providerId: String = "editor-main"
     private val tooltipText: String = "Code Editor"
-    private val viewModel = CodeEditorViewModel()
+    lateinit var viewModel: CodeEditorViewModel
 
     override suspend fun onInitialize(context: PluginContext) {
         super.onInitialize(context)
 
         val scope = pluginContext.scope
         val eventSystem = pluginContext.eventSystem
+        viewModel = CodeEditorViewModel(scope)
 
         scope.launch {
             eventSystem.publish(
@@ -61,10 +62,8 @@ class EditorPlugin() : BasePlugin(), IContentProvider {
 
     @Composable
     private fun CodeEditor() {
-        val currentState = viewModel.state.collectAsState()
-
         TextField(
-            state = viewModel.state.value.content,
+            state = viewModel.textFieldState,
             lineLimits = TextFieldLineLimits.MultiLine(),
             modifier = Modifier
                 .fillMaxSize(),
