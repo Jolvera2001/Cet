@@ -1,7 +1,7 @@
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.input.TextFieldLineLimits
-import androidx.compose.material.TextField
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Edit
 import androidx.compose.runtime.*
@@ -50,12 +50,13 @@ class EditorPlugin() : BasePlugin(), IContentProvider {
 
     @Composable
     override fun ProvideMainContent() {
-        CodeEditor()
+        CodeEditor(viewModel)
     }
 
     @Composable
-    private fun CodeEditor() {
-        TextField(
+    private fun CodeEditor(viewmodel: CodeEditorViewModel) {
+        // Gutter()
+        BasicTextField(
             state = viewModel.textFieldState,
             lineLimits = TextFieldLineLimits.MultiLine(),
             modifier = Modifier
