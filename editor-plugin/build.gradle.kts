@@ -9,6 +9,9 @@ version = "1.0-SNAPSHOT"
 
 repositories {
     mavenCentral()
+    maven {
+        url = uri("https://download.eclipse.org/tm4e/releases/latest/")
+    }
 }
 
 dependencies {
@@ -25,8 +28,8 @@ dependencies {
     // editor placeholder
     implementation("com.fifesoft:rsyntaxtextarea:3.1.3")
 
-    // tree sitter
-    implementation("io.github.tree-sitter:ktreesitter:0.24.1")
+    // TM4E
+    implementation("org.eclipse:org.eclipse.tm4e.core:0.9.0")
 
     // module
     implementation(project(":core"))
