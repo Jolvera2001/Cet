@@ -1,0 +1,4 @@
+package pluginSystem
+
+class PluginSystemPluginTests {
+}
