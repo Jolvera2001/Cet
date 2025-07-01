@@ -18,6 +18,7 @@ import PluginContext
 class CorePlugin() : ICorePlugin, BasePlugin() {
     override val id = "core"
     override val version = "0.1.0"
+    override val scopeName = "core-plugin-scope"
     var viewModel = CoreViewModel()
 
     override suspend fun onInitialize(context: PluginContext) {

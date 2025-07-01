@@ -12,6 +12,7 @@ import kotlinx.coroutines.launch
 class EditorPlugin() : BasePlugin(), IContentProvider {
     override val id: String = "editor-plugin"
     override val version: String = "0.1.0"
+    override val scopeName: String = "editor-plugin-scope"
     private val providerId: String = "editor-main"
     private val tooltipText: String = "Code Editor"
     lateinit var viewModel: CodeEditorViewModel
