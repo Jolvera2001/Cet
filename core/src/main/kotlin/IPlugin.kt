@@ -1,5 +1,4 @@
 import androidx.compose.runtime.Composable
-import kotlinx.coroutines.CoroutineScope
 
 interface IPlugin {
     val id: String
