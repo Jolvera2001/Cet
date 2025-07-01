@@ -1,6 +1,7 @@
 import androidx.compose.desktop.ui.tooling.preview.Preview
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.input.TextFieldLineLimits
 import androidx.compose.material.TextField
 import androidx.compose.material.icons.Icons
@@ -9,6 +10,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.awt.SwingPanel
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.launch
 import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea
 import org.fife.ui.rsyntaxtextarea.SyntaxConstants
@@ -66,7 +68,8 @@ class EditorPlugin() : BasePlugin(), IContentProvider {
             state = viewModel.textFieldState,
             lineLimits = TextFieldLineLimits.MultiLine(),
             modifier = Modifier
-                .fillMaxSize(),
+                .fillMaxSize()
+                .padding(0.dp, 0.dp),
         )
     }
 }

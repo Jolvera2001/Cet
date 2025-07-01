@@ -9,7 +9,7 @@ interface IPlugin {
     fun onDisable()
 }
 
-interface ICorePlugin : IPlugin {
+interface ICorePlugin {
     @Composable
     fun RootUI()
 }

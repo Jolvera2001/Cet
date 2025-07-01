@@ -7,18 +7,13 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import core.ui.MainArea
 import core.ui.SideBar
 import CetEvent
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.launchIn
-import kotlinx.coroutines.flow.onEach
-import IContentProvider
 import ICorePlugin
 import PluginContext
-import SideBarItem
 
 class CorePlugin() : ICorePlugin, BasePlugin() {
     override val id = "core"
@@ -69,32 +64,5 @@ class CorePlugin() : ICorePlugin, BasePlugin() {
                 }
             }
         }
-    }
-}
-
-data class CorePluginState(
-    var activeContentId: String? = null,
-    val contentProviders: Map<String, IContentProvider> = emptyMap(),
-    val sidebarItems: List<SideBarItem> = emptyList(),
-)
-
-class CoreViewModel() {
-    private val _state = MutableStateFlow(CorePluginState())
-    val state: StateFlow<CorePluginState> = _state.asStateFlow()
-
-    fun addNewProvider(id: String, provider: IContentProvider) {
-        _state.value = _state.value.copy(
-            contentProviders = _state.value.contentProviders + (id to provider)
-        )
-    }
-
-    fun addNewSidebarItem(sideBarItem: SideBarItem) {
-        _state.value = _state.value.copy(
-            sidebarItems = _state.value.sidebarItems + sideBarItem
-        )
-    }
-
-    fun setActiveContent(contentId: String?) {
-        _state.value = _state.value.copy(activeContentId = contentId)
     }
 }
