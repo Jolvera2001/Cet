@@ -1,20 +1,24 @@
 import androidx.compose.runtime.Composable
+import kotlinx.coroutines.CoroutineName
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.plus
 import java.util.ServiceLoader
 import kotlin.collections.forEach
 import kotlin.coroutines.CoroutineContext
 
 /**
  * Core system that handles plugins for the Cet app.
- * Planned to have an event system and plugin tracking
  */
 class PluginSystem(eventHandler: EventHandler, context: CoroutineContext) {
     private val _plugins = mutableMapOf<String, IPlugin>()
     private val _eventSystem = eventHandler
-    private val systemScope = CoroutineScope(context)
+    private val _systemScope = CoroutineScope(context)
 
+    /**
+     * Application entry point
+     */
     @Composable
     fun renderApplication() {
         val corePlugin = _plugins["core"] as? ICorePlugin
@@ -23,21 +27,31 @@ class PluginSystem(eventHandler: EventHandler, context: CoroutineContext) {
         corePlugin.RootUI()
     }
 
+    /**
+     * Starts plugin system
+     * **NOTE:** run this first before rendering application
+     */
     fun start() {
         registerPlugins()
 
-        systemScope.launch {
+        _systemScope.launch {
             startPlugins()
         }
     }
 
+    /**
+     * Stops all plugins and cancels any existing children coroutines
+     */
     fun stop() {
-        systemScope.cancel()
         shutDownPlugins()
+        _systemScope.cancel()
     }
 
-    fun getPlugins(): Map<String, IPlugin> {
-        return _plugins.toMap()
+    /**
+     * Adds a plugin in the registry. Mainly for testing purposes
+     */
+    fun addPlugin(plugin: IPlugin) {
+        _plugins[plugin.id] = plugin
     }
 
     private fun registerPlugins() {
@@ -48,16 +62,25 @@ class PluginSystem(eventHandler: EventHandler, context: CoroutineContext) {
     }
 
     private suspend fun startPlugins() {
-        val pluginContext = PluginContext(_eventSystem, systemScope)
-
-        // Initialize core plugin first
         val corePlugin = _plugins["core"]
-        corePlugin?.onInitialize(pluginContext)
+        if (corePlugin != null) {
+            val pluginContext = createPluginContext("core")
+            try {
+                corePlugin.onInitialize(pluginContext)
+            } catch (e: Exception) {
+                _eventSystem.publish(CetEvent.BaseEvents.SystemEvent(
+                    timestamp = System.currentTimeMillis(),
+                    message = "Critical error starting core plugin: ${e.message}",
+                    type = "ERROR"
+                ))
+                throw e
+            }
+        }
 
-        // Then initialize all other plugins
         _plugins.filter { it.key != "core" }.forEach { (id, plugin) ->
-            systemScope.launch {
+            _systemScope.launch {
                 try {
+                    val pluginContext = createPluginContext(id)
                     plugin.onInitialize(pluginContext)
                 } catch (e: Exception) {
                     _eventSystem.publish(CetEvent.BaseEvents.SystemEvent(
@@ -72,5 +95,12 @@ class PluginSystem(eventHandler: EventHandler, context: CoroutineContext) {
 
     private fun shutDownPlugins() {
         _plugins.forEach { (_, plugin) -> plugin.onDisable() }
+    }
+
+    private fun createPluginContext(id: String): PluginContext {
+        return PluginContext(
+            _eventSystem,
+            _systemScope + CoroutineName("Plugin - $id")
+        )
     }
 }

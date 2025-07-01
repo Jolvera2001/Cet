@@ -4,7 +4,6 @@ interface IPlugin {
     val id: String
     val version: String
     val state: PluginState
-    val scopeName: String
     suspend fun onInitialize(context: PluginContext)
     fun onDisable()
 }

@@ -11,7 +11,6 @@ import kotlinx.coroutines.launch
 abstract class BasePlugin() : IPlugin {
     abstract override val id: String
     abstract override val version: String
-    abstract override val scopeName: String
     override var state: PluginState = PluginState.STOPPED
     protected lateinit var pluginContext: PluginContext
 
