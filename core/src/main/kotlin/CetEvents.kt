@@ -1,4 +1,5 @@
 import sharedItems.SideBarItem
+import sharedItems.SubMenuItem
 
 /**
  * Event type to be sent into the EventSystem.
@@ -33,6 +34,13 @@ abstract class CetEvent {
             val providerId: String,
             override val timestamp: Long,
             val contentProvider: IContentProvider
+        ) : UIEvent()
+
+        data class RegisterMenuItem(
+            val pluginId: String,
+            val menuKey: String,
+            val subItem: SubMenuItem,
+            override val timestamp: Long,
         ) : UIEvent()
     }
 

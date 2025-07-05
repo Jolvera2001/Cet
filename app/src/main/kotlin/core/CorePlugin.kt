@@ -12,9 +12,12 @@ import kotlinx.coroutines.flow.onEach
 import core.ui.MainArea
 import core.ui.SideBar
 import CetEvent
+import EventHandler
 import ICorePlugin
 import PluginContext
 import core.ui.TopBar
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.launch
 import sharedItems.SideBarItem
 
 class CorePlugin() : ICorePlugin, BasePlugin() {
@@ -28,20 +31,7 @@ class CorePlugin() : ICorePlugin, BasePlugin() {
         val scope = pluginContext.scope
         val eventSystem = pluginContext.eventSystem
 
-        eventSystem.subscribe<CetEvent.BaseEvents.SystemEvent>()
-            .onEach { event ->
-                println(event)
-            }.launchIn(scope)
-
-        eventSystem.subscribe<CetEvent.UIEvent.RegisterSidebarItem>()
-            .onEach { event ->
-                viewModel.addNewSidebarItem(event.item)
-            }.launchIn(scope)
-
-        eventSystem.subscribe<CetEvent.UIEvent.RegisterContent>()
-            .onEach { event ->
-                viewModel.addNewProvider(event.providerId, event.contentProvider)
-            }.launchIn(scope)
+        launchListeners(scope, eventSystem)
     }
 
     @Composable
@@ -66,5 +56,27 @@ class CorePlugin() : ICorePlugin, BasePlugin() {
                 }
             }
         }
+    }
+
+    private fun launchListeners(scope: CoroutineScope, eventSystem: EventHandler) {
+        eventSystem.subscribe<CetEvent.BaseEvents.SystemEvent>()
+            .onEach { event ->
+                println(event)
+            }.launchIn(scope)
+
+        eventSystem.subscribe<CetEvent.UIEvent.RegisterSidebarItem>()
+            .onEach { event ->
+                viewModel.addNewSidebarItem(event.item)
+            }.launchIn(scope)
+
+        eventSystem.subscribe<CetEvent.UIEvent.RegisterContent>()
+            .onEach { event ->
+                viewModel.addNewProvider(event.providerId, event.contentProvider)
+            }.launchIn(scope)
+
+        eventSystem.subscribe<CetEvent.UIEvent.RegisterMenuItem>()
+            .onEach { event ->
+                viewModel.addNewMenuItem(event.menuKey, event.subItem)
+            }.launchIn(scope)
     }
 }
