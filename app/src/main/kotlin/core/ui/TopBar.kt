@@ -39,7 +39,7 @@ fun TopBar(menuItems: Map<String, List<SubMenuItem>>) {
             .background(MaterialTheme.colorScheme.surfaceDim),
     ) {
         LazyRow {
-            items(menuItems.toList()) {(menu, subMenu) ->
+            items(menuItems.toList()) { (menu, subMenu) ->
                 Dropdown(menu, subMenu)
             }
         }
@@ -70,7 +70,11 @@ fun Dropdown(menuName: String, menuItems: List<SubMenuItem>) {
                 DropdownMenuItem(
                     text = { Text(item.text) },
                     onClick = {
-                        item.callback
+                        try {
+                            item.callback()
+                        } catch (e: Exception) {
+                            println("Error: ${e.localizedMessage}")
+                        }
                         expanded = false
                     }
                 )

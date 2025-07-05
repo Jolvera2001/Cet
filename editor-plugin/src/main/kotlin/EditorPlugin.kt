@@ -52,7 +52,9 @@ class EditorPlugin() : BasePlugin(), IContentProvider {
                 CetEvent.UIEvent.RegisterMenuItem(
                     pluginId = id,
                     menuKey = "File",
-                    subItem = SubMenuItem("Test") {},
+                    subItem = SubMenuItem("Test") {
+                        scope.launch { println("Hello file item") }
+                    },
                     timestamp = System.currentTimeMillis(),
                 )
             )
