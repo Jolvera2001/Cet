@@ -1,4 +1,0 @@
-package pluginSystem
-
-class PluginSystemPluginTests {
-}

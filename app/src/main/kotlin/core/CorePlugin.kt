@@ -14,6 +14,8 @@ import core.ui.SideBar
 import CetEvent
 import ICorePlugin
 import PluginContext
+import core.ui.TopBar
+import sharedItems.SideBarItem
 
 class CorePlugin() : ICorePlugin, BasePlugin() {
     override val id = "core"
@@ -48,12 +50,12 @@ class CorePlugin() : ICorePlugin, BasePlugin() {
 
         MaterialTheme {
             Column {
-                // TopBar()
+                TopBar()
                 Row {
                     SideBar(
                         sideBarItems = currentState.sidebarItems,
                         selectedItemId = currentState.activeContentId,
-                        onItemClick = { item ->
+                        onItemClick = { item: SideBarItem ->
                             viewModel.setActiveContent(item.contentProviderId)
                         }
                     )

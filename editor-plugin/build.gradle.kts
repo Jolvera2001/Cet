@@ -10,7 +10,10 @@ version = "1.0-SNAPSHOT"
 repositories {
     mavenCentral()
     maven {
-        url = uri("https://download.eclipse.org/tm4e/releases/latest/")
+        url = uri("https://repo.eclipse.org/content/repositories/tm4e-snapshots/")
+        content {
+            includeGroup("org.eclipse")
+        }
     }
 }
 
@@ -29,7 +32,7 @@ dependencies {
     implementation("com.fifesoft:rsyntaxtextarea:3.1.3")
 
     // TM4E
-    implementation("org.eclipse:org.eclipse.tm4e.core:0.9.0")
+    implementation("org.eclipse:org.eclipse.tm4e.core:0.15.1-SNAPSHOT")
 
     // module
     implementation(project(":core"))

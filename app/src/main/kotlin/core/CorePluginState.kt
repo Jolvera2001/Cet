@@ -1,10 +1,10 @@
 package core
 
 import IContentProvider
-import SideBarItem
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import sharedItems.SideBarItem
 import kotlin.collections.plus
 
 data class CorePluginState(

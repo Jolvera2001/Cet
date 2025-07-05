@@ -1,4 +1,4 @@
-import javax.management.monitor.StringMonitor
+import sharedItems.SideBarItem
 
 /**
  * Event type to be sent into the EventSystem.
