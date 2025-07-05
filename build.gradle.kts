@@ -23,6 +23,9 @@ subprojects {
         val implementation by configurations
         val testImplementation by configurations
 
+        // misc
+        implementation("com.darkrockstudios:mpfilepicker:3.1.0")
+
         // coroutines
         implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.10.2")
         implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core-jvm:1.10.2")

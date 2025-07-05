@@ -7,6 +7,7 @@ import androidx.compose.material.icons.filled.Edit
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import com.darkrockstudios.libraries.mpfilepicker.FilePicker
 import kotlinx.coroutines.launch
 import sharedItems.SideBarItem
 import sharedItems.SubMenuItem
@@ -52,8 +53,8 @@ class EditorPlugin() : BasePlugin(), IContentProvider {
                 CetEvent.UIEvent.RegisterMenuItem(
                     pluginId = id,
                     menuKey = "File",
-                    subItem = SubMenuItem("Test") {
-                        scope.launch { println("Hello file item") }
+                    subItem = SubMenuItem("Open") {
+                        viewModel.FileFlip()
                     },
                     timestamp = System.currentTimeMillis(),
                 )
@@ -68,9 +69,14 @@ class EditorPlugin() : BasePlugin(), IContentProvider {
 
     @Composable
     private fun CodeEditor(viewmodel: CodeEditorViewModel) {
+        val state by viewmodel.state.collectAsState()
+
         // Gutter()
+        FilePicker(state.dialogOpen) {
+            platformFile -> viewmodel.FileFlip()
+        }
         BasicTextField(
-            state = viewModel.textFieldState,
+            state = state.textFieldState,
             lineLimits = TextFieldLineLimits.MultiLine(),
             modifier = Modifier
                 .fillMaxSize()

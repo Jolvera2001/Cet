@@ -35,22 +35,22 @@ class CorePlugin() : ICorePlugin, BasePlugin() {
 
     @Composable
     override fun RootUI() {
-        val currentState by viewModel.state.collectAsState()
+        val state by viewModel.state.collectAsState()
 
         MaterialTheme {
             Column {
-                TopBar(currentState.menuItems)
+                TopBar(state.menuItems)
                 Row {
                     SideBar(
-                        sideBarItems = currentState.sidebarItems,
-                        selectedItemId = currentState.activeContentId,
+                        sideBarItems = state.sidebarItems,
+                        selectedItemId = state.activeContentId,
                         onItemClick = { item: SideBarItem ->
                             viewModel.setActiveContent(item.contentProviderId)
                         }
                     )
                     MainArea(
-                        activeContentId = currentState.activeContentId,
-                        contentProviders = currentState.contentProviders,
+                        activeContentId = state.activeContentId,
+                        contentProviders = state.contentProviders,
                     )
                 }
             }
