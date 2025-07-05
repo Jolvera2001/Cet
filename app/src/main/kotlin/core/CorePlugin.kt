@@ -17,7 +17,6 @@ import ICorePlugin
 import PluginContext
 import core.ui.TopBar
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.launch
 import sharedItems.SideBarItem
 
 class CorePlugin() : ICorePlugin, BasePlugin() {
@@ -40,7 +39,7 @@ class CorePlugin() : ICorePlugin, BasePlugin() {
 
         MaterialTheme {
             Column {
-                TopBar()
+                TopBar(currentState.menuItems)
                 Row {
                     SideBar(
                         sideBarItems = currentState.sidebarItems,

@@ -11,7 +11,7 @@ import kotlin.collections.plus
 data class CorePluginState(
     var activeContentId: String? = null,
     val contentProviders: Map<String, IContentProvider> = emptyMap(),
-    val menuItems: Map<String, SubMenuItem> = emptyMap(),
+    val menuItems: Map<String, List<SubMenuItem>> = emptyMap(),
     val sidebarItems: List<SideBarItem> = emptyList(),
 )
 
@@ -27,7 +27,8 @@ class CoreViewModel() {
 
     fun addNewMenuItem(key: String, menuItem: SubMenuItem) {
         _state.value = _state.value.copy(
-            menuItems = _state.value.menuItems + (key to menuItem)
+            menuItems = _state.value.menuItems +
+                    (key to (_state.value.menuItems[key] ?: emptyList()) + menuItem)
         )
     }
 
