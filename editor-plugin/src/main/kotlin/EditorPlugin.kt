@@ -9,6 +9,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.launch
 import sharedItems.SideBarItem
+import sharedItems.SubMenuItem
 
 class EditorPlugin() : BasePlugin(), IContentProvider {
     override val id: String = "editor"
@@ -44,6 +45,15 @@ class EditorPlugin() : BasePlugin(), IContentProvider {
                         tooltip = tooltipText,
                         contentProviderId = providerId
                     ),
+                )
+            )
+
+            eventSystem.publish(
+                CetEvent.UIEvent.RegisterMenuItem(
+                    pluginId = id,
+                    menuKey = "File",
+                    subItem = SubMenuItem("Test") {},
+                    timestamp = System.currentTimeMillis(),
                 )
             )
         }
