@@ -11,6 +11,8 @@ import com.darkrockstudios.libraries.mpfilepicker.FilePicker
 import kotlinx.coroutines.launch
 import sharedItems.SideBarItem
 import sharedItems.SubMenuItem
+import java.io.File
+import javax.swing.JFileChooser
 
 class EditorPlugin() : BasePlugin(), IContentProvider {
     override val id: String = "editor"
@@ -54,7 +56,8 @@ class EditorPlugin() : BasePlugin(), IContentProvider {
                     pluginId = id,
                     menuKey = "File",
                     subItem = SubMenuItem("Open") {
-                        viewModel.FileFlip()
+                        println("Open FileDialog")
+                        viewModel.openFileDialog()
                     },
                     timestamp = System.currentTimeMillis(),
                 )
@@ -71,9 +74,31 @@ class EditorPlugin() : BasePlugin(), IContentProvider {
     private fun CodeEditor(viewmodel: CodeEditorViewModel) {
         val state by viewmodel.state.collectAsState()
 
+//        if (state.dialogOpen) {
+//            LaunchedEffect(state.dialogOpen) {
+//                val fileChooser = JFileChooser().apply {
+//                    currentDirectory = File(System.getProperty("user.home"))
+//                }
+//
+//                val result = fileChooser.showOpenDialog(null)
+//
+//                when (result) {
+//                    JFileChooser.APPROVE_OPTION -> {}
+//                    JFileChooser.CANCEL_OPTION -> {}
+//                    JFileChooser.ERROR_OPTION -> {}
+//                }
+//
+//                viewmodel.closeFileDialog()
+//            }
+//        }
+
         // Gutter()
-        FilePicker(state.dialogOpen) {
-            platformFile -> viewmodel.FileFlip()
+        FilePicker(
+            show = state.dialogOpen
+        ) {
+            platformFile ->
+            println("FilePicker callback triggered! File: $platformFile")
+            viewmodel.closeFileDialog()
         }
         BasicTextField(
             state = state.textFieldState,

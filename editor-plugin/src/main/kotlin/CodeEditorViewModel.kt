@@ -1,5 +1,6 @@
 import androidx.compose.foundation.text.input.TextFieldState
 import androidx.compose.runtime.snapshotFlow
+import com.darkrockstudios.libraries.mpfilepicker.MPFile
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -7,6 +8,7 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
 data class CodeEditorState(
+    var currentFileName: String? = null,
     var textFieldState: TextFieldState = TextFieldState(),
     var dialogOpen: Boolean = false,
 )
@@ -24,10 +26,19 @@ class CodeEditorViewModel(private val scope: CoroutineScope) {
         }
     }
 
-    fun FileFlip() {
-        _state.value.dialogOpen = !_state.value.dialogOpen
+    fun openFileDialog() {
+        _state.value = _state.value.copy(dialogOpen = true)
     }
-    fun OpenFile() {
 
+    fun closeFileDialog() {
+        _state.value = _state.value.copy(dialogOpen = false)
+    }
+
+    fun openFile() {
+        try {
+
+        } catch (e: Exception) {
+            println("Error: ${e.localizedMessage}")
+        }
     }
 }
