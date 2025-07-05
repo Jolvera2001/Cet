@@ -11,8 +11,6 @@ import com.darkrockstudios.libraries.mpfilepicker.FilePicker
 import kotlinx.coroutines.launch
 import sharedItems.SideBarItem
 import sharedItems.SubMenuItem
-import java.io.File
-import javax.swing.JFileChooser
 
 class EditorPlugin() : BasePlugin(), IContentProvider {
     override val id: String = "editor"

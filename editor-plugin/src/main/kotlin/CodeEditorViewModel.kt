@@ -8,7 +8,7 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
 data class CodeEditorState(
-    var currentFileName: String? = null,
+    var currentDocument: DocumentModel? = null,
     var textFieldState: TextFieldState = TextFieldState(),
     var dialogOpen: Boolean = false,
 )
@@ -19,7 +19,7 @@ class CodeEditorViewModel(private val scope: CoroutineScope) {
 
     init {
         scope.launch {
-            snapshotFlow { _state.value.textFieldState?.text.toString() }
+            snapshotFlow { _state.value.textFieldState.text.toString() }
                 .collect { newText ->
                     println(newText)
                 }
